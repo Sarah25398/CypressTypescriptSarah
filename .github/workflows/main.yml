@@ -1,0 +1,31 @@
+name: Daily Cypress Cloud Tests
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # 10:00 AM UTC+7  # Runs daily at midnight UTC
+  workflow_dispatch:     # Allows manual trigger
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'  # or your preferred version
+
+      - name: Install dependencies
+        run: npm install
+      - name: Install Cypress
+        run: npm install cypress --save-dev
+        
+      - name: Run Cypress tests with retry
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: npx cypress run --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
