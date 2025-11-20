@@ -19,13 +19,7 @@ jobs:
           node-version: '18'  # or your preferred version
 
       - name: Install dependencies
-        run: npm install
-      - name: Install Cypress
-        run: npm install cypress --save-dev
-        
-      - name: Run Cypress tests with retry
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: npx cypress run --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
+        run: npm ci   # cleaner install for CI
+
+      - name: Run Cypress tests
+        run: npx cypress run --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
