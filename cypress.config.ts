@@ -2,8 +2,14 @@ import { defineConfig } from "cypress";
 
 export default defineConfig({
   e2e: {
+    // projectId: "u9p3q1",
+    // baseUrl: "https://rahulshettyacademy.com/seleniumPractise/#/",
     setupNodeEvents(on, config) {
-      // implement node event listeners here
     },
+    experimentalPromptCommand: true
   },
 });
+
+
+
+

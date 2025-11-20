@@ -14,4 +14,8 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import '../utilities/CustomCommands';
+Cypress.on('uncaught:exception', (err, runnable) => {
+    return false
+})
+import 'cypress-real-events/support'; 
