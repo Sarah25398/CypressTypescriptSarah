@@ -6,9 +6,15 @@ export default defineConfig({
     // baseUrl: "https://rahulshettyacademy.com/seleniumPractise/#/",
     setupNodeEvents(on, config) {
     },
-    experimentalPromptCommand: true
+    experimentalPromptCommand: true,
+    retries: {
+      runMode: 2,
+      openMode: 1
+    },
+    video: false
   },
 });
+
 
 
 
