@@ -16,10 +16,14 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'  # or your preferred version
+          node-version: '18.18.2'  
 
       - name: Install dependencies
-        run: npm ci   # cleaner install for CI
+        run: npm ci  
+      - name: Install Cypress + ts-node
+        run: |
+          npm install --save-dev cypress@latest
+          npm install --save-dev ts-node
 
       - name: Run Cypress tests
         run: npx cypress run --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
