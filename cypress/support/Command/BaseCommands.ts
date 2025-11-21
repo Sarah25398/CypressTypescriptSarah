@@ -5,13 +5,10 @@ import { text } from "stream/consumers";
 export class BaseCommands {
     visitPage(pageUrl: string) {
         return cy.visit(pageUrl).then(() => {
-            cy.url().then((url) => {
-                url === pageUrl
-                    ? cy.log(`Navigated to ${pageUrl}`)
-                    : cy.log(`Navigate to incorrect page`)
-            })
-        });
+            cy.url().should('eq', pageUrl);
+        })
     }
+
     getCyValue(element: string) {
         return cy.get(element).invoke('val');
     }
@@ -42,7 +39,7 @@ export class BaseCommands {
         return cyChain;
     }
     getElementText(element: string) {
-        return this.getElement(element, true, false)
+        return this.getElement(element, true, true)
             .invoke('text');
     }
     getElementAttribute(element: string,
@@ -79,4 +76,53 @@ export class BaseCommands {
 
         })
     }
+    // add more commands 
+    getElementByParentTag(element: string
+        , textToFind: string
+        , parentTag: string
+        , elChild: string) {
+        return cy.get(element)
+            .contains(textToFind)
+            .parents(parentTag)
+            .find(elChild)
+    }
+    getUploadFile(element: string,
+        scrollIntoView: boolean
+    ) {
+        const el = cy.get(element);
+        return scrollIntoView ? el.scrollIntoView() : el;
+    }
+    clickElement(element: string) {
+        return this.getElement(element, true, true).click();
+    }
+    verifyEnableAndClick(cyChain: Cypress.Chainable<JQuery<HTMLElement>>) {
+        return cyChain
+            .should('exist')
+            .should('be.visible')
+            .should('not.be.disabled')
+            .click();
+    }
+    waitForTimeout(timeout: number): Promise<void> {
+        return new Promise((resolve) => {
+            cy.wait(timeout).then(() => {
+                cy.log(`Waited for ${timeout}ms`);
+                resolve();
+            });
+        });
+    }
+    forceCheckBox(element: string) {
+        return this.getElement(element, true, true)
+            .forceCheck();
+    }
+
+    selectDropdown(element: string
+        , text: string
+    ) {
+        return this.getElement(element, true, true)
+            .select(text, { force: true })
+            .should('be.visible');
+    }
+
+
+
 }
