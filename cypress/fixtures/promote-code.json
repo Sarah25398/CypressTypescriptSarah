@@ -1,0 +1,17 @@
+[
+    {
+        "type": "invalid",
+        "code": "%%%%%@#$",
+        "discount": "0%"
+    },
+    {
+        "type": "invalid",
+        "code": "2312313",
+        "discount": "0%"
+    },
+    {
+        "type": "valid",
+        "code": "rahulshettyacademy",
+        "discount": "10%"
+    }
+]
