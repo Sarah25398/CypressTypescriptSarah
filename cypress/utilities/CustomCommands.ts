@@ -7,7 +7,7 @@ Cypress.Commands.add('forceClick', {
 Cypress.Commands.add('forceCheck', {
     prevSubject: 'element',
 }, (subject) => {
-    return cy.wrap(subject).click({ force: true });
+    return cy.wrap(subject).click({ force: true }).should('be.checked');
 })
 
 Cypress.Commands.add('filterElVisible', {
