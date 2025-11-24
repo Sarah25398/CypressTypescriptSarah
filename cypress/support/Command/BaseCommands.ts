@@ -1,7 +1,3 @@
-import { test, expect } from "@playwright/test";
-import { defineConfig } from "cypress";
-import { text } from "stream/consumers";
-
 export class BaseCommands {
     visitPage(pageUrl: string) {
         return cy.visit(pageUrl).then(() => {

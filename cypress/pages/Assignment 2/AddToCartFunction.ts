@@ -12,7 +12,7 @@ export class AddToCartFunction {
         this.baseCommands.visitPage(Cypress.env('add-to-cart-url'));
     }
     findTextProduct() {
-        this.baseCommands.findElementByText(
+        return this.baseCommands.findElementByText(
             addToCartLocator.productNameTextLocator,
             addToCartFunctionData.productNameText,
             true,
@@ -29,9 +29,7 @@ export class AddToCartFunction {
             cy.wrap(el).click({ force: true });
         })
     }
-    verifyAddedItem() {
-
-    }
+    // Removed empty method - functionality is covered by verifyItemAddedToCart()
     verifyClicKCartIcon() {
         this.baseCommands.clickElement(
             addToCartLocator.cartIcon

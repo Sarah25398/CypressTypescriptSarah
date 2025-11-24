@@ -15,7 +15,9 @@ describe('Add to Cart Functionality', () => {
         addToCartFunction.navigateToProductPage()
     });
     it('Verify product name', () => {
-        addToCartFunction.findTextProduct();
+        addToCartFunction.findTextProduct()
+            .should('be.visible')
+            .and('contain.text', addToCartFunctionData.productNameText);
     });
     it('Add to Cart', () => {
         addToCartFunction.clickAddToCartButton();
@@ -30,7 +32,7 @@ describe('Add to Cart Functionality', () => {
         checkoutPage.verifyPromoteInfo("Invalid code ..!");
         checkoutPage.verifyDiscountNumber("0%");
     })
-    it.only('Verify Apply Multiple codes and E2E flow ', () => {
+    it('Verify Apply Multiple codes and E2E flow ', () => {
         addToCartFunction.clickAddToCartButton();
         addToCartFunction.verifyClicKCartIcon();
         addToCartFunction.verifyItemAddedToCart();

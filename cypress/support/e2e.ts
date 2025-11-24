@@ -15,7 +15,14 @@
 
 // Import commands.js using ES2015 syntax:
 import '../utilities/CustomCommands';
+// Handle uncaught exceptions - only suppress known non-critical errors
 Cypress.on('uncaught:exception', (err, runnable) => {
-    return false
+    // Suppress specific known errors that don't affect test execution
+    if (err.message.includes('ResizeObserver loop limit exceeded') ||
+        err.message.includes('Non-Error promise rejection captured')) {
+        return false;
+    }
+    // Let other errors fail the test
+    return true;
 })
 import 'cypress-real-events/support'; 
