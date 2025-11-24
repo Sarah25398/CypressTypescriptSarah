@@ -14,11 +14,6 @@ describe('Add to Cart Functionality', () => {
         addToCartFunction = new AddToCartFunction();
         addToCartFunction.navigateToProductPage()
     });
-    it('Verify product name', () => {
-        addToCartFunction.findTextProduct()
-            .should('be.visible')
-            .and('contain.text', addToCartFunctionData.productNameText);
-    });
     it('Add to Cart', () => {
         addToCartFunction.clickAddToCartButton();
     })
@@ -33,6 +28,9 @@ describe('Add to Cart Functionality', () => {
         checkoutPage.verifyDiscountNumber("0%");
     })
     it.only('Verify Apply Multiple codes and E2E flow ', () => {
+        addToCartFunction.findTextProduct()
+            .should('be.visible')
+            .and('contain.text', addToCartFunctionData.productNameText);
         addToCartFunction.clickAddToCartButton();
         addToCartFunction.verifyClicKCartIcon();
         addToCartFunction.verifyItemAddedToCart();
