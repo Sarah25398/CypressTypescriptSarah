@@ -32,7 +32,7 @@ describe('Add to Cart Functionality', () => {
         checkoutPage.verifyPromoteInfo("Invalid code ..!");
         checkoutPage.verifyDiscountNumber("0%");
     })
-    it('Verify Apply Multiple codes and E2E flow ', () => {
+    it.only('Verify Apply Multiple codes and E2E flow ', () => {
         addToCartFunction.clickAddToCartButton();
         addToCartFunction.verifyClicKCartIcon();
         addToCartFunction.verifyItemAddedToCart();
