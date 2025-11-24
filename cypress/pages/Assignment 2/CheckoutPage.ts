@@ -48,7 +48,7 @@ export class CheckoutPage {
         cy.get(checkOutPageLocator.sucessCheckOutMessage)
             .invoke('text')
             .should('contain', message1)
-            .and('contain', message1);
+            .and('contain', message2);
     }
 
     applyMultiplePromoteCode() {
