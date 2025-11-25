@@ -3,7 +3,7 @@ import { BaseCommands } from "../../support/Command/BaseCommands";
 import { CheckoutPage } from "../../pages/Assignment 2/CheckoutPage";
 import { addToCartFunctionData } from "../../data/DataTest/Assignement 2/AddToCartFunctionData";
 import { Logger } from "../../support/Logs/CustomLog";
-import { getCountry, Country } from "../../data/Enum/CountryEnum";
+import { getCountry, Country, isValidateCountry } from "../../data/Enum/CountryEnum";
 
 describe('Add to Cart Functionality', () => {
     let logger: Logger
@@ -18,7 +18,7 @@ describe('Add to Cart Functionality', () => {
         addToCartFunction.navigateToProductPage()
     });
     it.only('Add to Cart', () => {
-        cy.log(getCountry('MEXICO'));
+        cy.log(isValidateCountry("MEXICO"));
         logger.logStep('Find text cucumber and get add to cart button');
         addToCartFunction.clickAddToCartButton();
     })

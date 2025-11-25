@@ -11,8 +11,11 @@ export const isCountry = (country: string): boolean => {
 export const getCountry = (country: string): Country => {
     return Country[country as keyof typeof Country];
 }
+export const isCountryValid = (country: string): boolean => {
+    return country in Country;
+}
 export const isValidateCountry = (country: string): Country => {
-    if (isCountry(country)) {
+    if (isCountryValid(country)) {
         return getCountry(country);
     }
     else {

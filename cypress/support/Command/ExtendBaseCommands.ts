@@ -7,22 +7,23 @@ export class ExtendBaseCommands extends BaseCommands {
         super();
     }
     withinForm(selector: string, callback: () => void) {
-        return this.getElement(selector, true, true).within(() => {
+        this.getElement(selector, true, true).within(() => {
             callback();
         })
     }
     withinCard(selector: string, callback: () => void) {
-        return this.getElement(selector, true, true).within(() => {
+        this.getElement(selector, true, true).within(() => {
             callback();
         })
     }
     withinTable(selector: string, callback: () => void) {
-        return this.getElement(selector, true, true).within(() => {
+        this.getElement(selector, true, true).within(() => {
             callback();
         })
     }
+
     withinList(selector: string, callback: () => void) {
-        return this.getElement(selector, true, true).within(() => {
+        this.getElement(selector, true, true).within(() => {
             callback();
         })
     }
