@@ -13,6 +13,8 @@ declare namespace Cypress {
         waitEnabled(): Chainable<Subject>
         waitDisabled(): Chainable<Subject>
         waitNotDisabled(): Chainable<Subject>
-        waitNotEnabled(): Chainable<Subject>
+        waitNotEnabled(): Chainable<Subject> 
+        waitForAction(action: () => Cypress.Chainable<JQuery<HTMLElement>>, duration: number): Chainable<Subject>
+
     }
 }
