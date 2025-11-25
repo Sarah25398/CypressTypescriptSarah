@@ -1,3 +1,7 @@
+
+import { CustomTimeOutError, ValidationError } from "../support/CustomError";
+
+
 Cypress.Commands.add('forceClick', {
     prevSubject: 'element',
 }, (subject) => {
@@ -45,3 +49,18 @@ Cypress.Commands.add('waitVisibleAndClick', {
 }, (subject) => {
     return cy.wrap(subject).should('be.visible').click();
 })
+Cypress.Commands.add('waitForAction',
+    (action, duration) => {
+        const startTime = Date.now();
+        return cy.wrap(null).then(() => {
+            return action;
+
+        }).then((result) => {
+            const endTime = Date.now() - startTime
+            if (endTime >= duration) {
+                throw new CustomTimeOutError(duration, action.toString());
+            }
+            return result
+        }
+        )
+    })
