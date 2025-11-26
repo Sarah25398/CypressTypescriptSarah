@@ -66,8 +66,6 @@ export class AddressBookPage {
             else {
                 this.baseCommands.fillTextElement(field, values[index]);
             }
-
-            this.baseCommands.fillTextElement(field, values[index]);
         })
     }
     selectState() {
