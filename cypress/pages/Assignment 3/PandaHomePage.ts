@@ -2,7 +2,7 @@ import { BaseCommands } from "../../support/Command/BaseCommands";
 import { PandaHomePageLocator } from "../../locators/Assignment 3/PandaHomePageLocator";
 import { ExtendBaseCommands } from "../../support/Command/ExtendBaseCommands";
 import { URL, validateURL } from "../../data/Enum/UrlEnum";
-
+import { registerAccountData } from "../../data/DataTest/Assignment 3/RegisterAccountData"
 export class PandaHomePage {
     baseCommands: BaseCommands;
     extendBaseCommands: ExtendBaseCommands;
@@ -35,5 +35,35 @@ export class PandaHomePage {
             .then((text) => {
                 return text.trim();
             })
+    }
+    clickCreateAccount() {
+        this.baseCommands.clickElement(PandaHomePageLocator.createAccountButton);
+    }
+    fillNameField() {
+        const nameFields: string[] = [PandaHomePageLocator.firstName, PandaHomePageLocator.middleName, PandaHomePageLocator.lastName];
+        const values: string[] = [registerAccountData.firstName, registerAccountData.middleName, registerAccountData.lastName];
+        nameFields.forEach((field, index) => {
+            this.baseCommands.fillTextElement(field, values[index]);
+        })
+        nameFields.forEach((field, index) => {
+            cy.get(field).clear({ force: true });
+        })
+    }
+    fillAllFields() {
+        const registerFields: string[] = [PandaHomePageLocator.firstName, PandaHomePageLocator.middleName, PandaHomePageLocator.lastName, PandaHomePageLocator.email, PandaHomePageLocator.password, PandaHomePageLocator.confirmPassword];
+        const values: string[] = [registerAccountData.firstName, registerAccountData.middleName, registerAccountData.lastName, registerAccountData.email, registerAccountData.password, registerAccountData.password];
+        registerFields.forEach((field, index) => {
+            const isPassField = field === PandaHomePageLocator.password || field === PandaHomePageLocator.confirmPassword;
+            this.baseCommands.fillTextSecurity(field, values[index], isPassField);
+        })
+    }
+    clickRegisterButton() {
+        this.baseCommands.clickElement(PandaHomePageLocator.registerButton);
+        cy.url({ timeout: 5000 }).should('include', '/customer/account/index');
+    }
+    verifyRegistration() {
+        this.baseCommands
+            .getElementText(PandaHomePageLocator.welcomeMessage)
+            .should('include', 'Hello');
     }
 }
