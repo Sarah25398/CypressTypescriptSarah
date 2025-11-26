@@ -117,6 +117,14 @@ export class BaseCommands {
         return this.getElement(element, true, true)
             .select(text, { force: true })
             .should('be.visible');
+    } 
+     getElByParent(element: string
+        , textToFind: string
+        , parentTag: string
+    ) {
+        return cy.get(element)
+            .contains(textToFind)
+            .parents(parentTag)
     }
 
 
