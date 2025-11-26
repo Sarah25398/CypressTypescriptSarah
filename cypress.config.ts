@@ -6,6 +6,8 @@ export default defineConfig({
     // baseUrl: "https://rahulshettyacademy.com/seleniumPractise/#/",
     setupNodeEvents(on, config) {
     },
+    chromeWebSecurity: false,
+    pageLoadTimeout: 120000,
     specPattern: 'cypress/e2e/**/*.{cy,spec}.{js,jsx,ts,tsx}',
     // baseUrl: 'https://rahulshettyacademy.com/seleniumPractise/#/',
     // viewportHeight: 1080,
