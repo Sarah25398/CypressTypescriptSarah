@@ -21,7 +21,6 @@ export class ExtendBaseCommands extends BaseCommands {
             callback();
         })
     }
-
     withinList(selector: string, callback: () => void) {
         this.getElement(selector, true, true).within(() => {
             callback();
@@ -34,5 +33,6 @@ export class ExtendBaseCommands extends BaseCommands {
             .should('not.be.disabled')
             .click({ force: true });
     }
+
 
 }   
