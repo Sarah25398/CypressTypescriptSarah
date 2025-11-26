@@ -27,5 +27,12 @@ export class ExtendBaseCommands extends BaseCommands {
             callback();
         })
     }
+    clickChainElement<T extends HTMLElement>(cyChain: Cypress.Chainable<JQuery<T>>) {
+        return cyChain
+            .should('exist')
+            .should('be.visible')
+            .should('not.be.disabled')
+            .click({ force: true });
+    }
 
 }   
