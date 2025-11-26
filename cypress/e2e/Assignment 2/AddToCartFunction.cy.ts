@@ -2,16 +2,13 @@ import { AddToCartFunction } from "../../pages/Assignment 2/AddToCartFunction";
 import { BaseCommands } from "../../support/Command/BaseCommands";
 import { CheckoutPage } from "../../pages/Assignment 2/CheckoutPage";
 import { addToCartFunctionData } from "../../data/DataTest/Assignement 2/AddToCartFunctionData";
-import { Logger } from "../../support/Logs/CustomLog";
 import { getCountry, Country, isValidateCountry } from "../../data/Enum/CountryEnum";
 
 describe('Add to Cart Functionality', () => {
-    let logger: Logger
     let addToCartFunction: AddToCartFunction;
     let baseCommands: BaseCommands;
     let checkoutPage: CheckoutPage;
     beforeEach(() => {
-        logger = new Logger();
         checkoutPage = new CheckoutPage();
         baseCommands = new BaseCommands();
         addToCartFunction = new AddToCartFunction();
@@ -19,7 +16,6 @@ describe('Add to Cart Functionality', () => {
     });
     it.only('Add to Cart', () => {
         cy.log(isValidateCountry("MEXICO"));
-        logger.logStep('Find text cucumber and get add to cart button');
         addToCartFunction.clickAddToCartButton();
     })
     it('Verify Added Item with trial step ', () => {
