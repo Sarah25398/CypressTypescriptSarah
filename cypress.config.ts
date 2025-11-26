@@ -16,7 +16,9 @@ export default defineConfig({
     //   runMode: 2,
     //   openMode: 1
     // },
-    video: false
+    video: false,
+    chromeWebSecurity: false,
+    pageLoadTimeout: 120000
   },
 });
 
