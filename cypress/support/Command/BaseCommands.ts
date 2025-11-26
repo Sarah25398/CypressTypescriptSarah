@@ -126,6 +126,15 @@ export class BaseCommands {
             .contains(textToFind)
             .parents(parentTag)
     }
+    fillTextSecurity(element: string
+        , text: string
+        , secure: boolean = false
+    ) {
+        return this.getElement(element, true, true)
+            .clear({ force: true })
+            .type(text, { log: !secure })
+            .should('have.value', text);
+    }
 
 
 
