@@ -3,6 +3,8 @@ import { PandaHomePageLocator } from "../../locators/Assignment 3/PandaHomePageL
 import { ExtendBaseCommands } from "../../support/Command/ExtendBaseCommands";
 import { URL, validateURL } from "../../data/Enum/UrlEnum";
 import { registerAccountData } from "../../data/DataTest/Assignment 3/RegisterAccountData"
+import { assertStringIncludes } from "../../support/Assertion/CustomAssertion";
+
 export class PandaHomePage {
     baseCommands: BaseCommands;
     extendBaseCommands: ExtendBaseCommands;
@@ -39,21 +41,27 @@ export class PandaHomePage {
     clickCreateAccount() {
         this.baseCommands.clickElement(PandaHomePageLocator.createAccountButton);
     }
-    fillNameField() {
-        const nameFields: string[] = [PandaHomePageLocator.firstName, PandaHomePageLocator.middleName, PandaHomePageLocator.lastName];
-        const values: string[] = [registerAccountData.firstName, registerAccountData.middleName, registerAccountData.lastName];
-        nameFields.forEach((field, index) => {
-            this.baseCommands.fillTextElement(field, values[index]);
-        })
-        nameFields.forEach((field, index) => {
-            cy.get(field).clear({ force: true });
-        })
-    }
     fillAllFields() {
-        const registerFields: string[] = [PandaHomePageLocator.firstName, PandaHomePageLocator.middleName, PandaHomePageLocator.lastName, PandaHomePageLocator.email, PandaHomePageLocator.password, PandaHomePageLocator.confirmPassword];
-        const values: string[] = [registerAccountData.firstName, registerAccountData.middleName, registerAccountData.lastName, registerAccountData.email, registerAccountData.password, registerAccountData.password];
+        const registerFields: string[] = [
+            PandaHomePageLocator.firstName
+            , PandaHomePageLocator.middleName
+            , PandaHomePageLocator.lastName
+            , PandaHomePageLocator.email
+            , PandaHomePageLocator.password
+            , PandaHomePageLocator.confirmPassword
+        ];
+        const values: string[] = [
+            registerAccountData.firstName
+            , registerAccountData.middleName
+            , registerAccountData.lastName
+            , registerAccountData.email
+            , registerAccountData.password
+            , registerAccountData.password
+        ];
         registerFields.forEach((field, index) => {
-            const isPassField = field === PandaHomePageLocator.password || field === PandaHomePageLocator.confirmPassword;
+            const isPassField = field
+                === PandaHomePageLocator.password
+                || field === PandaHomePageLocator.confirmPassword;
             this.baseCommands.fillTextSecurity(field, values[index], isPassField);
         })
     }
@@ -64,6 +72,9 @@ export class PandaHomePage {
     verifyRegistration() {
         this.baseCommands
             .getElementText(PandaHomePageLocator.welcomeMessage)
-            .should('include', 'Hello');
+            .then((text) => {
+                assertStringIncludes(text, "Hello", "Welcome Message should contain 'Hello'");
+            })
     }
 }
+
