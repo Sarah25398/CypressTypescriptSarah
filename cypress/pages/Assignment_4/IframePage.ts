@@ -39,8 +39,21 @@ export class IframePage {
         });
         
         const userSets: userSet[] = [userSetIncorrect, userSetCorrect];
+        
         userSets.forEach((userSet, index) => {
-                    IframeHelper.getIframeBody(iframeLocator.iframeWindowLocator).within(() => {
+            
+            cy.get(iframeLocator.iframeWindowLocator)
+                .should('exist')
+                .its('0.contentDocument')
+                .should('exist')
+                .its('body')
+                .should('not.be.null')
+                .should('be.visible')
+                .then((body) => {
+                    return cy.wrap(body);
+                })
+                .within(() => {
+                    
                     cy.get(iframeLocator.userName, { timeout: 15000 })
                         .should("be.visible")
                         .clear()
@@ -54,7 +67,7 @@ export class IframePage {
                     cy.get(iframeLocator.loginButton, { timeout: 10000 })
                         .should("be.visible")
                         .click();
-                    
+                    cy.wait(2000);
                     
                 });
         });

@@ -50,6 +50,20 @@ export class IframeHelper {
             .should('be.visible')
             .then((cyBoday) => cy.log(cyBoday));
     }
+    static uploadFileIframe(iframeSelector: string, elementSelector: string, filePath: string) {
+        return this.getIframeBody(iframeSelector)
+           .within(() => {
+               cy.get(elementSelector).selectFile(filePath);
+           }
+           )    
+    }
+    static uploadFileWithOptions(iframeSelector: string, elementSelector: string, filePath: string, options?: Partial<Cypress.SelectFileOptions>) {
+        return this.getIframeBody(iframeSelector)
+           .within(() => {
+               cy.get(elementSelector).selectFile(filePath, { force:true, ...options });
+           }
+           )    
+    }
 
 }
     
