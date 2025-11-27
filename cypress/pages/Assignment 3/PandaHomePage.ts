@@ -41,6 +41,26 @@ export class PandaHomePage {
     clickCreateAccount() {
         this.baseCommands.clickElement(PandaHomePageLocator.createAccountButton);
     }
+    fillNameField() {
+        const nameFields: string[] =
+            [
+                PandaHomePageLocator.firstName
+                , PandaHomePageLocator.middleName
+                , PandaHomePageLocator.lastName
+            ];
+        const values: string[] =
+            [
+                registerAccountData.firstName
+                , registerAccountData.middleName
+                , registerAccountData.lastName
+            ];
+        nameFields.forEach((field, index) => {
+            this.baseCommands.fillTextElement(field, values[index]);
+        })
+        nameFields.forEach((field, index) => {
+            cy.get(field).clear({ force: true });
+        })
+    }
     fillAllFields() {
         const registerFields: string[] = [
             PandaHomePageLocator.firstName
@@ -77,5 +97,3 @@ export class PandaHomePage {
             })
     }
 }
-
-
