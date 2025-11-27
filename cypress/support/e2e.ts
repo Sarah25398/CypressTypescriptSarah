@@ -16,6 +16,8 @@
 // Import commands.js using ES2015 syntax:
 
 import '../utilities/CustomCommands';
+import 'cypress-iframe';
+
 
 // Handle uncaught exceptions - only suppress known non-critical errors
 Cypress.on('uncaught:exception', (err) => {
