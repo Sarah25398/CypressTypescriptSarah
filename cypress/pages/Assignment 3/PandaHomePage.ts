@@ -3,7 +3,7 @@ import { PandaHomePageLocator } from "../../locators/Assignment 3/PandaHomePageL
 import { ExtendBaseCommands } from "../../support/Command/ExtendBaseCommands";
 import { URL, validateURL } from "../../data/Enum/UrlEnum";
 import { registerAccountData } from "../../data/DataTest/Assignment 3/RegisterAccountData"
-import { assertStringIncludes } from "../../support/Assertion/CustomAssertion";
+import { assertStringIncludes } from "../../support/Assertions/CustomAssertions";
 
 export class PandaHomePage {
     baseCommands: BaseCommands;
@@ -77,4 +77,5 @@ export class PandaHomePage {
             })
     }
 }
+
 
