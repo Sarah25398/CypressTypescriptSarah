@@ -14,12 +14,18 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
+
 import '../utilities/CustomCommands';
+
 // Handle uncaught exceptions - only suppress known non-critical errors
 Cypress.on('uncaught:exception', (err) => {
   // returning false prevents Cypress from failing the test
   if (err.message.includes('postMessage')) {
     return false;
   }
-}
-import 'cypress-real-events/support'; 
+  // allow other errors to fail tests
+  return true;
+});
+
+import 'cypress-real-events/support';
+
