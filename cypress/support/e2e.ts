@@ -21,4 +21,5 @@ Cypress.on('uncaught:exception', (err) => {
   if (err.message.includes('postMessage')) {
     return false;
   }
+}
 import 'cypress-real-events/support'; 
