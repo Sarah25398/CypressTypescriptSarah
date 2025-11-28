@@ -56,10 +56,9 @@ export class uploadFileIframe {
             uploadFileLocator.multipleFileLocator,
             fileUploadData.filePaths
         );
-        cy.wait(3000);
         this.verifyMessageUploadFile(fileUploadData.filePaths.length);
         this.initiateUploadFile();
-        cy.wait(3000);
+        cy.wait(2000);
         this.getInitiateMessage(fileUploadData.filePaths.length);
     }
     uploadFileSingleFile() {
@@ -75,7 +74,7 @@ export class uploadFileIframe {
     initiateUploadFile() {
         return IframeHelper.getIframeContentDocument(iframeLocator.iframeWindowLocator)
             .within(() => {
-                cy.get('button').contains('INITIATE SECURE UPLOAD', { timeout: 10000 })
+                cy.get('button').contains('INITIATE SECURE UPLOAD', { timeout: 2000 })
                     .should('be.visible')
                     .click();
             });
@@ -83,7 +82,7 @@ export class uploadFileIframe {
     getInitiateMessage(fileNumber: number) {
         return IframeHelper.getIframeContentDocument(iframeLocator.iframeWindowLocator)
             .within(() => {
-                cy.get(uploadFileLocator.fileUploadMessage, { timeout: 20000 })
+                cy.get(uploadFileLocator.fileUploadMessage, { timeout: 2000 })
                     .should('exist')
                     .should('be.visible')
                     .should('contain.text', "Transmission Complete");
@@ -94,51 +93,7 @@ export class uploadFileIframe {
                     .should('contain', `${fileNumber} file(s) successfully uploaded to orbital relay station.`);
             });
     }
-    // uploadOnlySingleFile() {
-    //     const files: string[] = [getFile(1), getFile(0), getFile(2)];
-    //     const locators: string[] = [
-    //         uploadFileLocator.documentFileLocator,
-    //         uploadFileLocator.singleFileLocator,
-    //         uploadFileLocator.imagefileLocator
-    //     ];
-        
-    //     cy.wrap(null).then(() => {
-    //         IframeHelper.uploadFileIframe(
-    //             iframeLocator.iframeWindowLocator,
-    //             locators[0],
-    //             files[0]
-    //         );
-    //         cy.wait(3000);
-    //         this.verifyMessageUploadFile(1);
-    //         this.initiateUploadFile();
-    //         cy.wait(2000);
-    //         this.getInitiateMessage(1);
-    //     })
-    //     .then(() => {
-    //         IframeHelper.uploadFileIframe(
-    //             iframeLocator.iframeWindowLocator,
-    //             locators[1],
-    //             files[1]
-    //         );
-    //         cy.wait(3000);
-    //         this.verifyMessageUploadFile(1);
-    //         this.initiateUploadFile();
-    //         cy.wait(2000);
-    //         this.getInitiateMessage(1);
-    //     })
-    //     .then(() => {
-    //         IframeHelper.uploadFileIframe(
-    //             iframeLocator.iframeWindowLocator,
-    //             locators[2],
-    //             files[2]
-    //         );
-    //         cy.wait(3000);
-    //         this.verifyMessageUploadFile(1);
-    //         this.initiateUploadFile();
-    //         cy.wait(2000);
-    //         this.getInitiateMessage(1);
-    //     });
-    // }
+  
     uploadOnlySingleFile() {
         const files: string[] = [getFile(1), getFile(0), getFile(2)];
         const locators: string[] = [
@@ -152,7 +107,6 @@ export class uploadFileIframe {
                 locator,
                 files[index]
             );
-            cy.wait(3000);
             this.verifyMessageUploadFile(1);
             this.initiateUploadFile();
             cy.wait(2000);
