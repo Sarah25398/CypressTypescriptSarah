@@ -20,10 +20,21 @@ export const userSetIncorrect : userSet = {
 export const fileUploadData: FileUploadData = {
     fileUploadUrl: "http://testtrack.org/file-upload-demo",
     filePaths: [
-        'cypress/fixtures/file1.txt',
-        'cypress/fixtures/file2.txt',
-        'cypress/fixtures/file3.txt',
-        'cypress/fixtures/file4.txt'
+        'cypress/fixtures/file_pdf.pdf', // pdf
+        'cypress/fixtures/file_test_1.jpeg', // image
+        'cypress/fixtures/file_test_2.jpeg', // image
+        'cypress/fixtures/file_test_3.jpg' // image 
     ],
     expectedSuccessMessage: "upload successfully"
+}
+export function isFileType(index: number): boolean {
+    const file = getFile(index);
+    return file?.endsWith('.pdf')
+        || file?.endsWith('.jpeg')
+        || file?.endsWith('.jpg')
+        || file?.endsWith('.png');
+}
+export function getFile(index: number): string{
+    return fileUploadData.filePaths?.[index];
+
 }

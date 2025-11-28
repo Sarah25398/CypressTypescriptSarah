@@ -1,5 +1,6 @@
+import { iframeLocator } from "../locators/Assignment_4/IframeLocator";
 
-
+import { assertEqual } from "./Assertions/CustomAssertions";
 export class IframeHelper {
     static getIframeBody(iframeSelector: string) {
         return cy.get(iframeSelector)
@@ -50,8 +51,8 @@ export class IframeHelper {
             .should('be.visible')
             .then((cyBoday) => cy.log(cyBoday));
     }
-    static uploadFileIframe(iframeSelector: string, elementSelector: string, filePath: string) {
-        return this.getIframeBody(iframeSelector)
+    static uploadFileIframe(iframeSelector: string, elementSelector: string, filePath: string | string [],) {
+        return this.getIframeContentDocument(iframeSelector)
            .within(() => {
                cy.get(elementSelector).selectFile(filePath);
            }
@@ -64,6 +65,25 @@ export class IframeHelper {
            }
            )    
     }
+    static getIframeContentDocument(
+        iframeLocator: string
+    ) {
+        return cy.get(iframeLocator)
+                .should('exist')
+                .its('0.contentDocument.body')
+                .should('be.visible')
+                .then((body) => {
+                    return cy.wrap(body);
+                })
+    }
+    static verifyMessageInIframe(iframeLocator: string,cyChain: Cypress.Chainable<JQuery<HTMLElement>>) {
+        return this.getIframeContentDocument(iframeLocator)
+            .within(() => {
+                return cyChain;
+            })
+        }
+        
+    }
 
-}
+
     

@@ -21,9 +21,9 @@ export class IframePage {
     navigateToIframePage() {
         this.baseCommands.visitPage(validateURL("iframe_url"));
     }
-    renderIframe() {
+    renderIframe(url : string) {
         this.baseCommands.fillTextElement(
-            iframeLocator.searchBoxInput, "https://katalon-demo-cura.herokuapp.com/#appointment"
+            iframeLocator.searchBoxInput, url
         );
         this.baseCommands.clickElement(iframeLocator.renderIframeButton);
         cy.frameLoaded(iframeLocator.iframeWindowLocator);
