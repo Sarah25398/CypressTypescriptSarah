@@ -11,5 +11,6 @@ describe("Iframe Test", () => {
 
     it("Verify Iframe", () => {
         iframePage.renderIframe("https://katalon-demo-cura.herokuapp.com/#appointment");
+        iframePage.verifyMakeAppointment(); 
     });
 });
