@@ -64,3 +64,16 @@ Cypress.Commands.add('waitForAction',
         }
         )
     })
+Cypress.Commands.add('getAtribute', {
+    prevSubject: 'element',
+}, (subject, attribute) => {
+    return cy.wrap(subject).invoke('attr', attribute);
+})
+
+
+Cypress.Commands.add('verifyCssProperty', {
+    prevSubject: 'element',
+}, (subject, property, value) => {
+    cy.wrap(subject).should('have.css', property, value);
+
+})
