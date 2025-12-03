@@ -15,6 +15,8 @@ declare namespace Cypress {
         waitNotDisabled(): Chainable<Subject>
         waitNotEnabled(): Chainable<Subject> 
         waitForAction(action: () => Cypress.Chainable<JQuery<HTMLElement>>, duration: number): Chainable<Subject>
+        verifyCssProperty(property: string, value: string): Chainable<Subject>
+        getAtribute(attribute: string): Chainable<string>
 
     }
 }
