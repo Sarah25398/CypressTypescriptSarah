@@ -1,0 +1,24 @@
+{
+    "products": [
+        {
+            "name": "Brocolli - 1 Kg",
+            "quantity": 2
+        },
+        {
+            "name": "Cauliflower - 1 Kg",
+            "quantity": 3
+        },
+        {
+            "name": "Cucumber - 1 Kg",
+            "quantity": 1
+        },
+        {
+            "name": "Beetroot - 1 Kg",
+            "quantity": 4
+        },
+        {
+            "name": "Carrot - 1 Kg",
+            "quantity": 2
+        }
+    ]
+}
