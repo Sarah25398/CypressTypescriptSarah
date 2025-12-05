@@ -35,6 +35,7 @@ describe("Product Page", () => {
         productPage.clickProceedCheckoutButton();
         productPage.getHeaderTable();
         productPage.getImageInRow();
+        productPage.compareDataProduct(); // compare data product and fixture test file 
         productPage.loopInRows();
         productPage.assertRows();
         productPage.assertTotal();
@@ -51,6 +52,8 @@ describe("Product Page", () => {
                 , addToCartFunctionData.messageCheckOut2);
 
     });
+   
+
 
 
 });

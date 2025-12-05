@@ -91,6 +91,24 @@ export class ProductPage {
                 cy.wrap($el).find('img').should('be.visible');
             })
     }
+    getProductDetail() {
+      return this.tableHelper.getCellData("tbody tr");
+    }
+    compareDataProduct() {
+        cy.fixture('product-detail').then((data) => {
+            this.getProductDetail().then((dataTable) => {
+                expect(dataTable.length).to.deep.equal(data.products.length);
+                data.products.forEach((expectedData: any, index: any) => {
+                    const actualData = dataTable[index];
+                    expect(actualData.product).to.equal(expectedData.name);
+                    expect(actualData.qty).to.equal(expectedData.quantity);
+                }
+                )
+            })
+        
+        });
+    }
+    
     loopInRows() {
         cy.get('table.cartTable tbody tr').each(($row, index) => {
             cy.wrap($row).find('td').eq(1).invoke('text').then(productName => {

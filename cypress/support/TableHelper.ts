@@ -1,8 +1,6 @@
 export interface CellData {
-    rowID: number,
-    columnID: number,
-    value: string,
-    element?: Cypress.Chainable<JQuery<HTMLElement>>
+    product: string,
+    qty: number,
 }
 export interface RowData {
     rowID: number,
@@ -32,34 +30,29 @@ export class TableHelper {
                 return headers;
             })
     }
-    getRow(el: string, i: number): Cypress.Chainable<JQuery<HTMLElement>> {
-        return cy.get(this.tableElement)
-            .find('tbody tr')
-            .eq(i)
-            .find(el)
-
-    }
-
-    getCellData(i: number, j: number): Cypress.Chainable<JQuery<HTMLElement>> {
-        return this.getRow("td", i).eq(j)
-    }
-    getRowData(i: number) {
-        return this.getRow("td", i).then(($el) => {
-            const cells: CellData[] = [];
-            $el.each((index, el) => {
-                const cell: CellData = {
-                    rowID: i,
-                    columnID: index,
-                    value: el.textContent?.trim() || '',
-                    element: cy.wrap(el)
-                };
-
-                cells.push(cell);
+    getCellData(el: string): Cypress.Chainable<CellData[]> { 
+    const element: string = `${this.tableElement} ${el}`;
+    const cells: CellData[] = [];
+    
+    return cy.get(element).then(($rows) => {
+        $rows.each((rowIndex, rowElement) => {
+            const $row = Cypress.$(rowElement);
+            const $allCells = $row.find('td');
+            const product = $allCells.eq(1).text().trim();
+            const qty = $allCells.eq(2).text().trim();
+            
+            cells.push({
+                product: product,
+                qty: Number(qty)
             });
-            return cells
-        })
+        });
+        
+        return cells;
+    });
+}
 
-    }
+    
+
 
 
 
