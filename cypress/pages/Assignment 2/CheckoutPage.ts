@@ -44,11 +44,21 @@ export class CheckoutPage {
             cy.get("Button").contains("Proceed")
         )
     }
-    getSucessCheckOutText(message1 :string, message2 :string) {
+    getSucessCheckOutText(message1: string, message2: string) {
         cy.get(checkOutPageLocator.sucessCheckOutMessage)
             .invoke('text')
             .should('contain', message1)
             .and('contain', message2);
+    }
+    verifyCountrySelect(country: string) {
+        return cy.get('select').invoke('val').should('eq', country)
+
+    }
+    verifyWarningMessage() {
+        return this.baseCommands.getElementText(".errorAlert")
+            .then(($el) => {
+                expect($el.trim()).to.equal("Please accept Terms & Conditions - Required");
+            })
     }
 
     applyMultiplePromoteCode() {
