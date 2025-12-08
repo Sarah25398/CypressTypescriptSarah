@@ -32,6 +32,11 @@ describe("Product Page", () => {
             expect(cartItems).to.deep.equal(expectedNames);
 
         });
+         productPage.cartProductQty().then((cartQty) => {
+            const expectedNames = this.productData.products.map((product: any) => product.quantity);
+            expect(cartQty).to.have.length(expectedNames.length);
+            expect(cartQty).to.deep.equal(expectedNames);
+        })
         productPage.clickProceedCheckoutButton();
         productPage.getHeaderTable();
         productPage.getImageInRow();
@@ -57,4 +62,5 @@ describe("Product Page", () => {
 
 
 });
+
 
