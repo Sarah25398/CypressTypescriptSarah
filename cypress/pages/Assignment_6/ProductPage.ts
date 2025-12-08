@@ -70,6 +70,20 @@ export class ProductPage {
                 });
         });
     }
+    cartProductQty() {
+        return this.baseCommands
+            .getElement(".cart-preview.active .product-total .quantity", true, false)
+            .then(($el) => {
+                const qtys = Array.from($el)
+                    .map((el) => {
+                        const cleanedQty = el.textContent?.replace(/Nos?\./, "").trim() ?? '';
+                        return Number(cleanedQty)
+                    }
+                    )
+                    .filter(cleanedQty => !isNaN(cleanedQty));
+                return qtys;
+            })
+    }
     clickProceedCheckoutButton() {
         this.baseCommands.verifyEnableAndClick(
             cy.get('button[type="button"]')
@@ -165,3 +179,4 @@ export class ProductPage {
 
 
 }
+
