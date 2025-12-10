@@ -5,7 +5,11 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress:run": "cypress run",
+    "cypress:open": "cypress open",
+    "test:report": "cypress run --reporter cypress-mochawesome-reporter",
+    "clean:reports": "rm -rf cypress/reports && mkdir -p cypress/reports"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +19,11 @@
     "@types/node": "^24.10.1",
     "cypress": "^15.6.0",
     "cypress-iframe": "^1.0.1",
+    "cypress-mochawesome-reporter": "^4.0.2",
     "cypress-real-events": "^1.15.0",
+    "mochawesome": "^7.1.4",
+    "mochawesome-merge": "^5.1.0",
+    "mochawesome-report-generator": "^6.3.2",
     "typescript": "5.4"
   }
 }

@@ -46,7 +46,6 @@ export class TableHelper {
                 qty: Number(qty)
             });
         });
-        
         return cells;
     });
 }

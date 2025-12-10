@@ -15,28 +15,29 @@ describe("Product Page", () => {
         productPage.navigateToProductPage("");
     });
     it("Verify Product Page", function () {
-        this.productData.products.forEach((data: any) => {
+        cy.wrap(this.productData.products).each((data: any) => {
             productPage.findProduct(data.name).then((product) => {
                 cy.wrap(product).should("be.visible");
             });
-            productPage.fillQty(data.name, data.quantity).then((product) => {
-                cy.wrap(product).should("have.value", data.quantity);
+            productPage.fillQty(data.name, String(data.quantity)).then((product) => {
+                cy.wrap(product).should("have.value", String(data.quantity));
             });
-            productPage.addToCart(data.name).then(() => {
-                cy.log(`${data.quantity} ${data.name} added to cart`);
-            });
+            productPage.addToCart(data.name);
+            cy.wait(1000); 
         });
+        
         productPage.cartItem().then((cartItems) => {
             const expectedNames = this.productData.products.map((product: any) => product.name);
             expect(cartItems).to.have.length(expectedNames.length);
             expect(cartItems).to.deep.equal(expectedNames);
-
         });
-         productPage.cartProductQty().then((cartQty) => {
-            const expectedNames = this.productData.products.map((product: any) => product.quantity);
-            expect(cartQty).to.have.length(expectedNames.length);
-            expect(cartQty).to.deep.equal(expectedNames);
-        })
+        
+        cy.get('.cart-preview.active').should('be.visible');
+        productPage.cartProductQty().then((cartQty) => {
+            const expectedQuantities = this.productData.products.map((product: any) => product.quantity);
+            expect(cartQty).to.have.length(expectedQuantities.length);
+            expect(cartQty).to.deep.equal(expectedQuantities);
+        });
         productPage.clickProceedCheckoutButton();
         productPage.getHeaderTable();
         productPage.getImageInRow();
@@ -57,10 +58,6 @@ describe("Product Page", () => {
                 , addToCartFunctionData.messageCheckOut2);
 
     });
-   
-
-
-
 });
 
 

@@ -1,4 +1,4 @@
-import { APIMethodEnum, StatusCode } from "../../data/Enum/APIEnum";
+import { APIMethodEnum, StatusCode } from "../data/Enum/APIEnum";
 export interface APIrequestConfig {
     url: string
     method: APIMethodEnum,

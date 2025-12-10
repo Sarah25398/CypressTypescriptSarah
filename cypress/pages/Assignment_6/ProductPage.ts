@@ -71,18 +71,21 @@ export class ProductPage {
         });
     }
     cartProductQty() {
-        return this.baseCommands
-            .getElement(".cart-preview.active .product-total .quantity", true, false)
-            .then(($el) => {
+        // Ensure cart preview is visible first
+        return cy.get('.cart-preview.active').should('be.visible').then(() => {
+            return cy.get('.cart-preview.active .product-total .quantity').then(($el) => {
                 const qtys = Array.from($el)
                     .map((el) => {
-                        const cleanedQty = el.textContent?.replace(/Nos?\./, "").trim() ?? '';
-                        return Number(cleanedQty)
-                    }
-                    )
-                    .filter(cleanedQty => !isNaN(cleanedQty));
+                        const text = el.textContent?.trim() ?? '';
+                        // Remove "Nos." or "No." and extract number
+                        const cleanedQty = text.replace(/Nos?\./gi, "").replace(/\D/g, "").trim();
+                        const qty = Number(cleanedQty);
+                        return isNaN(qty) ? 0 : qty;
+                    })
+                    .filter(qty => qty > 0);
                 return qtys;
-            })
+            });
+        });
     }
     clickProceedCheckoutButton() {
         this.baseCommands.verifyEnableAndClick(

@@ -28,6 +28,8 @@ Cypress.on('uncaught:exception', (err) => {
   // allow other errors to fail tests
   return true;
 });
+import 'cypress-mochawesome-reporter/register';
+
 
 import 'cypress-real-events/support';
 
