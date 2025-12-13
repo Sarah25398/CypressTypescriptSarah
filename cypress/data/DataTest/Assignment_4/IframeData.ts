@@ -1,8 +1,33 @@
+import { generateData } from "../../../utilities/GenerateDataUtils/DataUtils";
 export interface userSet {
     userName: string,
     passWord:string 
 
-
+}
+export type fileType = 'pdf' | 'jpeg' | 'jpg' | 'png'
+export const fileExtensionMap: Record<fileType, boolean> = {
+    'pdf': true,
+    'jpeg': true,
+    'jpg': true,
+    'png': true
+}
+export function getFileExtensions(filePath:string): fileType | null { 
+    const extensions: fileType[] = ['pdf', 'jpeg', 'jpg', 'png'];
+    for (const ext of extensions) {
+        if (filePath.endsWith(`.${ext}`)) {
+            return ext;
+        }
+    }
+    return null;
+}
+export function isValidFileType(index: number): boolean {
+    const file = getFile(index);
+    const extension = getFileExtensions(file);
+    if (extension && fileExtensionMap[extension]) {
+        return true;
+    }
+    return false;
+    
 }
 export interface FileUploadData {
     fileUploadUrl: string,
@@ -14,8 +39,8 @@ export const userSetCorrect : userSet = {
     passWord: "This Is Not A Password"
 }
 export const userSetIncorrect : userSet = {
-    userName: "admin",
-    passWord: "admin"
+    userName: generateData('name', { prefix: 'User_' }),
+    passWord: generateData('string', { prefix: 'Pass_' })
 }
 export const fileUploadData: FileUploadData = {
     fileUploadUrl: "http://testtrack.org/file-upload-demo",

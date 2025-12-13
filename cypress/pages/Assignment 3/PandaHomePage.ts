@@ -4,6 +4,7 @@ import { ExtendBaseCommands } from "../../support/Command/ExtendBaseCommands";
 import { URL, validateURL } from "../../data/Enum/UrlEnum";
 import { registerAccountData } from "../../data/DataTest/Assignment 3/RegisterAccountData"
 import { assertStringIncludes } from "../../support/Assertions/CustomAssertions";
+import { generateData } from "../../utilities/GenerateDataUtils/DataUtils";
 
 export class PandaHomePage {
     baseCommands: BaseCommands;
@@ -74,7 +75,7 @@ export class PandaHomePage {
             registerAccountData.firstName
             , registerAccountData.middleName
             , registerAccountData.lastName
-            , registerAccountData.email
+            , generateData('email', { prefix: 'user_' })
             , registerAccountData.password
             , registerAccountData.password
         ];
