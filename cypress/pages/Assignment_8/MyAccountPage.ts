@@ -9,7 +9,7 @@ export class MyAccountPage {
     private baseCommands: BaseCommands
     extendBaseCommands: ExtendBaseCommands
     private baseUrl: string
-    
+
     constructor(baseUrl: string) {
         this.extendBaseCommands = new ExtendBaseCommands();
         this.baseUrl = baseUrl;
@@ -35,6 +35,12 @@ export class MyAccountPage {
                 : console.log("Not Navigated to My Account Page");
 
         })
-
     }
+    verifyRegisterFunction(): void {
+        this.baseCommands.clickElement(myAccountLocator.registerButton);
+        this.baseCommands.getElementText(myAccountLocator.woocommerceError).then((text) => {
+            expect(text.trim()).to.equal('Error: Please provide a valid email address.');
+        })
+    }
+
 }
