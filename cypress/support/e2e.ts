@@ -25,6 +25,9 @@ Cypress.on('uncaught:exception', (err) => {
   if (err.message.includes('postMessage')) {
     return false;
   }
+  if (err.message.includes('adsbygoogle.push')) {
+    return false;
+  }
   // allow other errors to fail tests
   return true;
 });
