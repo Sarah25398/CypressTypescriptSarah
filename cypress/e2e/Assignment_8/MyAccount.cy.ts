@@ -14,6 +14,7 @@ describe('Assignment 8', () => {
 
     it('Verify register login test case', () => {
         myAccountPage.verifyMyAccountNavigate();
+        myAccountPage.verifyRegisterFunction();
 
     })
 })
