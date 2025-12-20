@@ -39,35 +39,96 @@ export class FactoryData {
 
 }
 export const dataFactory = new FactoryData(); 
+let cachedUserData: User | null = null;
 const generateNew = dataFactory.generateData<User>(
     {
         default: {
-            category :'User',
+            
         },
         generator:() => {
             return {
-                id: Math.floor(Math.random() * 1000),
-                name: `User_${Math.random().toString(36).substring(2, 9)}`,
-                age: Math.floor(Math.random() * 100),
-                address: `Address_${Math.random().toString(36).substring(2, 9)}`,
+                email : `${Math.random().toString(36).substring(2, 10)}@gmail.com`,
+                password : (Math.random().toString(36).slice(2) + 
+                    Math.random().toString(36).slice(2)).substring(0, 20)
                 }
         }
     }
 ); 
+export interface Billing{
+    userName: string;
+    lastName: string;
+    company: string;
+    phone: number;
+    adress_1: string;
+    city: string;
+    zip: string;
+}
+const generateBilling = dataFactory.generateData<Billing>(
+    {
+        default: {
+            
+        },
+        generator:() => {
+            return {
+                userName : `${Math.random().toString(36).substring(2, 10)}`,
+                lastName : `${Math.random().toString(36).substring(2, 10)}`,
+                company : `${Math.random().toString(36).substring(2, 10)}`,
+                phone : Math.floor(Math.random() * 1000000000),
+                adress_1 : `${Math.random().toString(36).substring(2, 10)}`,
+                city : `${Math.random().toString(36).substring(2, 10)}`,
+                zip : Math.random().toString(36).slice(2)
+                }
+        }
+    }
+)
+export function getBillingKey<K extends keyof Billing>(key: K): Billing[K] {
+    return (generateBilling.create() as Billing)[key];
+    
+}
+export function initializeUserData(): User {
+    if (!cachedUserData) {
+        cachedUserData = generateNew.create();
+        cy.wrap(cachedUserData).as('userData');
+    }
+    return cachedUserData;
+}
+
 export function getUserData<K extends keyof User>(
     key : K
 ): User[K] {
-    return generateNew.create()[key];
+    if (!cachedUserData) {
+        initializeUserData();
+    }
+    return cachedUserData![key];
 }
 
+export function getCachedUserData(): User {
+    if (!cachedUserData) {
+        initializeUserData();
+    }
+    return cachedUserData!;
+}
+
+export function resetUserDataCache(): void {
+    cachedUserData = null;
+    cy.wrap(null).as('userData');
+}
 
 export interface User {
-    id: number,
-    name: string,
-    age: number,
-    address: string,
-    category: string
+    email: string;
+    password: string;
+        
+}
+type passStatus = 'weak' | 'medium' | 'strong'; 
+const passRules : Record<passStatus, (password: string) => boolean> = {
+    weak: (password: string) => password.length < 8,
+    medium: (password: string) => password.length >= 8 && password.length < 16,
+    strong: (password: string) => password.length >= 16
+}
+export function verifyPassword(password: string, status: passStatus): boolean {
+    return passRules[status](password);
 }
 
    
    
+

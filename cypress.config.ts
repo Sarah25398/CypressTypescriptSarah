@@ -9,7 +9,10 @@ export default defineConfig({
     specPattern: 'cypress/e2e/**/*.{cy,spec}.{js,jsx,ts,tsx}',
     experimentalPromptCommand: true,
     video: false,
-    
+    retries: {
+      runMode: 1,
+      openMode: 1,
+    },
     reporter: 'cypress-mochawesome-reporter',
     reporterOptions: {
       reportDir: 'cypress/reports',

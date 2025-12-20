@@ -1,20 +1,30 @@
 import { MyAccountPage } from "../../pages/Assignment_8/MyAccountPage";
 import { URL, getURL } from "../../data/Enum/UrlEnum";
 import { generateData } from "../../utilities/GenerateDataUtils/DataUtils";
+import { initializeUserData } from "../../data/Factories/factoryUtility";
 
 
 describe('Assignment 8', () => {
     let myAccountPage: MyAccountPage
 
-    before(() => {
+    beforeEach(() => {
+        initializeUserData();
         myAccountPage = new MyAccountPage(getURL("my_account_url"));
-        cy.viewport(1280, 720);
         myAccountPage.naviateToMyAccountPage("");
+        myAccountPage.verifyMyAccountNavigate();
+
     })
 
     it('Verify register login test case', () => {
-        myAccountPage.verifyMyAccountNavigate();
-        myAccountPage.verifyRegisterFunction();
-
-    })
+        myAccountPage.verifyRegisterInvalid(); 
+        myAccountPage.verifyValidRegister();
+    });
+    
+    it('Verify login test case with invalid credentials', () => {
+       myAccountPage.loginInvalidCreds();
+    });
+    
+    it('Verify login test case with valid credentials', () => {
+        myAccountPage.loginValidCreds();
+    });
 })
