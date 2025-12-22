@@ -34,9 +34,9 @@ private parseAmount(text: string): number {
             .parent()
             .siblings()
             .contains("Add to basket").click();
-        this.baseCommands.clickElement('[title="View Basket"]');
+        this.baseCommands.clickElement('[title="View Basket"]'); //view basket 
         this.baseCommands.waitForTimeout(2000);
-        this.baseCommands.fillTextElement('.quantity input', '5');
+        this.baseCommands.fillTextElement('.quantity input', '5');  //fill qty = 5 
         this.baseCommands.clickElement('[value="Update Basket"]');
         cy.wait(3000);
     }
@@ -93,7 +93,8 @@ private parseAmount(text: string): number {
 
          })
     }
-    verifyTextForCountry(country : Record<string, number>): void {
+  //function to pass record object of country and key as tax number 
+    verifyTaxForCountry(country : Record<string, number>): void {
         Object.entries(country).forEach(([key, value]) => {
             cy.get('#billing_country').select(key, { force: true });
             cy.wait(2000);
@@ -107,6 +108,7 @@ private parseAmount(text: string): number {
     placeOrder(): void {
         this.baseCommands.getElement('#place_order',true,true).forceClick();
     }
+  //verify order details exact with sub total data and total Net data 
     verifyTextOrder(): void {
         this.baseCommands.findElementByText(
             "a",
