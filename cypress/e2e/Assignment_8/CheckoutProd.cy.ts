@@ -13,7 +13,7 @@ describe('Verify Checkout function ', () => {
         myAccounPage.verifyMyAccountNavigate();
         checkout.goToShopPage()
     })
-    it('Verify register login test case', () => {
+    it('Verify checkout cart with Selenium Product ', () => {
         checkout.selectSeleniumProd()
         checkout.proceedCheckOut()
         checkout.fillBilling()
