@@ -18,7 +18,7 @@ describe('Assignment 8', () => {
 
     })
     it('Verify add to cart product  ', () => {
-        shopPage.clickSortingOrder()
+        shopPage.verifySortingOrder()
         shopPage.addSeleniumProdToCart();
         shopPage.verifyBasketProd();
         shopPage.navigateToShop() 
