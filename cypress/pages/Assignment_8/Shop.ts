@@ -39,7 +39,7 @@ export class ShopAccount {
 
         })
     }
-    clickSortingOrder(): void {
+    verifySortingOrder(): void {
         this.baseCommands.selectDropdown("select.orderby", "price-desc");
         cy.wait(1000);
         cy.get('.products .price').then(($priceElements) => {
@@ -61,7 +61,7 @@ export class ShopAccount {
                     cy.log(`Product ${index + 1} - Discount Price: ${discountPriceText} -> ${numericPrice}`);
                 }
             });
-            const sortedDiscountPrices = [...discountPrices].sort((a: number, b: number) => b - a);
+            const sortedDiscountPrices = [...discountPrices].sort((a: number, b: number) => b - a);  //get data of price sorting 
             expect(discountPrices, 'Sorted Discount Prices')
                 .to.deep.equal(sortedDiscountPrices);
             cy.log(`Original Discount Prices: [${discountPrices.join(', ')}]`);
