@@ -17,7 +17,7 @@ describe('Verify Checkout function ', () => {
         checkout.selectSeleniumProd()
         checkout.proceedCheckOut()
         checkout.fillBilling()
-        checkout.verifyTextForCountry(
+        checkout.verifyTaxForCountry(
             {
                 "Hong Kong": 0.05,
                 "India": 0.02
