@@ -155,6 +155,37 @@ export class TableHelper {
             return cells;
         }) as unknown as Cypress.Chainable<any[]>;
     }
+     getCellDataDynamic(el: string, configs: CellDataConfig[]): Cypress.Chainable<any[]>{ 
+        const element: string = `${this.tableElement} ${el}`; 
+        const cells: any[] = []; 
+        return cy.get(element).then((element) => {
+            const $rows = Cypress.$(element);
+            $rows.each((rowIndex, rowElement) => {
+                const $cells = Cypress.$(rowElement).find('td');
+                const cellValue: any = {}
+                const typeHandlers: Record<string, (cell: JQuery<HTMLElement>, config: CellDataConfig) => string | undefined> = {
+                    text: (cell, config) => cell.text().trim(),
+                    attribute: (cell, config) => config.attributeName ? cell.attr(config.attributeName) : undefined,
+                    value: (cell, config) => (cell.val() as string)?.trim()
+                }
+                configs.forEach((config) => {
+                    let cellData = $cells.eq(config.index);  
+                    if (config.selector) {
+                        cellData = cellData.find(config.selector);
+                    }
+                    let value: string | undefined
+                    if (typeHandlers[config.type as keyof typeof typeHandlers] ) {
+                        value = typeHandlers[config.type as keyof typeof typeHandlers](cellData, config);
+                        cellValue[config.key] = value
+                    }
+                    cells.push(cellValue)
+                })
+            })
+            return cells as unknown[]
+        })
+        
+        
+    }
     
   
 }
