@@ -60,19 +60,20 @@ jobs:
           path: cypress/reports/*.json
           retention-days: 30
           if-no-files-found: ignore
-      - name: Notify n8n Webhook with test results
+
+      - name: Send Mochawesome JSON to n8n Webhook
         if: always()
         run: |
-          curl -X POST https://sarahtran.app.n8n.cloud/webhook-test/ed223db9-5110-4a43-ad3b-111af660c24b \
-          -H "Content-Type: application/json" \
-          -d '{
-            "status": "${{ job.status }}",
-            "workflow": "${{ github.workflow }}",
-            "run_id": "${{ github.run_id }}",
-            "branch": "${{ github.ref }}",
-            "commit": "${{ github.sha }}",
-            "artifact": "mochawesome-json-reports"
-          }'
+         REPORT=$(cat cypress/reports/mochawesome.json)
+         curl -X POST https://saartharn.app.n8n.cloud/webhook-test/ed223db9-5110-4a43-ad3b-111af660c24b \
+         -H "Content-Type: application/json" \
+         -d "{
+         \"status\": \"${{ job.status }}\",
+         \"workflow\": \"${{ github.workflow }}\",
+         \"run_id\": \"${{ github.run_id }}\",
+         \"branch\": \"${{ github.ref }}\",
+         \"commit\": \"${{ github.sha }}\",
+         \"report\": $REPORT  }"
 
 
-      
+  
