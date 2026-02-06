@@ -62,18 +62,24 @@ jobs:
           if-no-files-found: ignore
      
 
-      - name: Send Mochawesome JSON to n8n Webhook
+      - name: Prepare Test Result JSON
+        if: always()
+        run: |
+          jq -s '{
+            status: "${{ job.status }}",
+            workflow: "${{ github.workflow }}",
+            run_id: "${{ github.run_id }}",
+            branch: "${{ github.ref }}",
+            commit: "${{ github.sha }}",
+            reports: .
+          }' cypress/reports/*.json > result.json
+
+      - name: Send Test Results to n8n Webhook
         if: always()
         run: |
           curl -X POST https://saartharn.app.n8n.cloud/webhook-test/ed223db9-5110-4a43-ad3b-111af660c24b \
           -H "Content-Type: application/json" \
-          -d '{
-            "status": "${{ job.status }}",
-            "workflow": "${{ github.workflow }}",
-            "run_id": "${{ github.run_id }}",
-            "branch": "${{ github.ref }}",
-            "commit": "${{ github.sha }}"
-          }'
+          -d @result.json
 
 
 
