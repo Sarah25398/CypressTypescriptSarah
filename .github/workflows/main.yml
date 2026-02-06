@@ -60,6 +60,10 @@ jobs:
           path: cypress/reports/*.json
           retention-days: 30
           if-no-files-found: ignore
+      - name: Merge Mochawesome JSON reports
+        if: always()
+        run: |
+          npx mochawesome-merge cypress/reports/*.json > cypress/reports/mochawesome.json
 
       - name: Send Mochawesome JSON to n8n Webhook
         if: always()
