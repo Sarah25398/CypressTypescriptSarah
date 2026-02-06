@@ -60,15 +60,11 @@ jobs:
           path: cypress/reports/*.json
           retention-days: 30
           if-no-files-found: ignore
-      - name: Merge Mochawesome JSON reports
-        if: always()
-        run: |
-          npx mochawesome-merge cypress/reports/*.json > cypress/reports/mochawesome.json
+     
 
       - name: Send Mochawesome JSON to n8n Webhook
         if: always()
         run: |
-         REPORT=$(cat cypress/reports/mochawesome.json)
          curl -X POST https://saartharn.app.n8n.cloud/webhook-test/ed223db9-5110-4a43-ad3b-111af660c24b \
          -H "Content-Type: application/json" \
          -d "{
@@ -77,7 +73,6 @@ jobs:
          \"run_id\": \"${{ github.run_id }}\",
          \"branch\": \"${{ github.ref }}\",
          \"commit\": \"${{ github.sha }}\",
-         \"report\": $REPORT  }"
 
 
   
