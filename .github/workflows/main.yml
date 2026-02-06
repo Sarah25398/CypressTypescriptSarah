@@ -1,67 +1,28 @@
-name: Cypress Tests with Cloud + Mochawesome Report
+name: Cypress Tests with Report to Webhook
 
 on:
-  schedule:
-    - cron: '0 3 * * *'  # 10:00 AM UTC+7
-  workflow_dispatch:     # Allows manual trigger
   push:
-    branches: [ main, develop ]
-  pull_request:
     branches: [ main ]
 
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '18.18.2'
-          cache: 'npm'
+          node-version: 20
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Cypress dependencies
-        run: |
-          npm install --save-dev cypress@latest ts-node
-          npm install --save-dev cypress-mochawesome-reporter mochawesome mochawesome-report-generator
+      - name: Run Cypress tests
+        run: npx cypress run
 
-      - name: Create reports directory
-        run: mkdir -p cypress/reports
-
-      - name: Run Cypress tests with Cloud + Mochawesome reporter
-        run: |
-          npx cypress run \
-            --record \
-            --key ${{ secrets.CYPRESS_RECORD_KEY }} \
-            --reporter cypress-mochawesome-reporter \
-            --reporter-options "reportDir=cypress/reports,html=true,json=true"
-        continue-on-error: true  # Continue to generate reports even if tests fail
-
-      - name: Upload Mochawesome HTML report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: mochawesome-report
-          path: cypress/reports/*.html
-          retention-days: 30
-          if-no-files-found: ignore
-
-      - name: Upload JSON reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: mochawesome-json-reports
-          path: cypress/reports/*.json
-          retention-days: 30
-          if-no-files-found: ignore
-     
-
+      # Nếu bạn muốn gom JSON report
       - name: Prepare Test Result JSON
         if: always()
         run: |
@@ -72,15 +33,20 @@ jobs:
             branch: "${{ github.ref }}",
             commit: "${{ github.sha }}",
             reports: .
-          }' cypress/reports/*.json > result.json
+          }' cypress/reports/*.json > cypress/reports/result.json
 
-      - name: Send Test Results to n8n Webhook
+      - name: Send JSON Report to n8n Webhook
         if: always()
         run: |
           curl -X POST https://saartharn.app.n8n.cloud/webhook-test/ed223db9-5110-4a43-ad3b-111af660c24b \
-          -H "Content-Type: application/json" \
-          -d @result.json
+            -H "Content-Type: application/json" \
+            -d @cypress/reports/result.json
 
-
-
-  
+      # Nếu bạn muốn gửi HTML report thay vì JSON
+      - name: Send HTML Report to n8n Webhook
+        if: always()
+        run: |
+          REPORT_FILE=$(ls cypress/reports/*.html | head -n 1)
+          curl -X POST https://saartharn.app.n8n.cloud/webhook-test/ed223db9-5110-4a43-ad3b-111af660c24b \
+            -H "Content-Type: text/html" \
+            --data-binary @"$REPORT_FILE"
