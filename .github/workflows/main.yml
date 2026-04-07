@@ -22,31 +22,31 @@ jobs:
       - name: Run Cypress tests
         run: npx cypress run
 
-      # Nếu bạn muốn gom JSON report
-      - name: Prepare Test Result JSON
-        if: always()
-        run: |
-          jq -s '{
-            status: "${{ job.status }}",
-            workflow: "${{ github.workflow }}",
-            run_id: "${{ github.run_id }}",
-            branch: "${{ github.ref }}",
-            commit: "${{ github.sha }}",
-            reports: .
-          }' cypress/reports/*.json > cypress/reports/result.json
+      # # Nếu bạn muốn gom JSON report
+      # - name: Prepare Test Result JSON
+      #   if: always()
+      #   run: |
+      #     jq -s '{
+      #       status: "${{ job.status }}",
+      #       workflow: "${{ github.workflow }}",
+      #       run_id: "${{ github.run_id }}",
+      #       branch: "${{ github.ref }}",
+      #       commit: "${{ github.sha }}",
+      #       reports: .
+      #     }' cypress/reports/*.json > cypress/reports/result.json
 
-      - name: Send JSON Report to n8n Webhook
-        if: always()
-        run: |
-          curl -X POST https://saartharn.app.n8n.cloud/webhook-test/ed223db9-5110-4a43-ad3b-111af660c24b \
-            -H "Content-Type: application/json" \
-            -d @cypress/reports/result.json
+      # - name: Send JSON Report to n8n Webhook
+      #   if: always()
+      #   run: |
+      #     curl -X POST https://saartharn.app.n8n.cloud/webhook-test/ed223db9-5110-4a43-ad3b-111af660c24b \
+      #       -H "Content-Type: application/json" \
+      #       -d @cypress/reports/result.json
 
-      # Nếu bạn muốn gửi HTML report thay vì JSON
-      - name: Send HTML Report to n8n Webhook
-        if: always()
-        run: |
-          REPORT_FILE=$(ls cypress/reports/*.html | head -n 1)
-          curl -X POST https://saartharn.app.n8n.cloud/webhook-test/ed223db9-5110-4a43-ad3b-111af660c24b \
-            -H "Content-Type: text/html" \
-            --data-binary @"$REPORT_FILE"
+      # # Nếu bạn muốn gửi HTML report thay vì JSON
+      # - name: Send HTML Report to n8n Webhook
+      #   if: always()
+      #   run: |
+      #     REPORT_FILE=$(ls cypress/reports/*.html | head -n 1)
+      #     curl -X POST https://saartharn.app.n8n.cloud/webhook-test/ed223db9-5110-4a43-ad3b-111af660c24b \
+      #       -H "Content-Type: text/html" \
+      #       --data-binary @"$REPORT_FILE"
