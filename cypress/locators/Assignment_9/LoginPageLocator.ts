@@ -1,0 +1,15 @@
+export const loginPageLocator = {
+  loginForm: '.u-column1 form.login',
+  registerForm: '.u-column2 form.register',
+  usernameInput: '#username',
+  passwordInput: '#password',
+  loginButton: 'input[name="login"]',
+  rememberMeCheckbox: '#rememberme',
+  registerEmailInput: '#reg_email',
+  registerPasswordInput: '#reg_password',
+  registerButton: 'input[name="register"]',
+  accountNavigation: '.woocommerce-MyAccount-navigation',
+  logoutLink: 'a[href*="customer-logout"]',
+  errorNotice: '.woocommerce-error li',
+  pageHeading: '.page-title',
+} as const;
