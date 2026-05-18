@@ -1,5 +1,4 @@
 import { defineConfig } from "cypress";
-import * as fs from 'fs';
 
 export default defineConfig({
   e2e: {
@@ -7,7 +6,6 @@ export default defineConfig({
     chromeWebSecurity: false,
     pageLoadTimeout: 120000,
     specPattern: 'cypress/e2e/**/*.{cy,spec}.{js,jsx,ts,tsx}',
-    experimentalPromptCommand: true,
     video: false,
     retries: {
       runMode: 1,
@@ -31,8 +29,6 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       // Initialize Mochawesome reporter plugin
       // This must be called first - it sets up its own before:run hook
-      const mochawesomeReporter = require('cypress-mochawesome-reporter/plugin');
-      mochawesomeReporter(on, config);
       
       return config;
     }
