@@ -1556,822 +1556,781 @@ function minimumSumSubarray(nums: number[], l: number, r: number): number {
   return minArray.length === 0 ? -1 : Math.min(...minArray);
 }
 function findValidPair(s: string): string {
-    const map: Map<string, number> = new Map();
-    for (const char of s) {
-      map.set(char, (map.get(char) || 0) + 1);
+  const map: Map<string, number> = new Map();
+  for (const char of s) {
+    map.set(char, (map.get(char) || 0) + 1);
+  }
+  for (let i = 0; i < s.length - 1; i++) {
+    const a = s[i];
+    const b = s[i + 1];
+    if (a !== b && map.get(a) === Number(b) && map.get(b) === Number(a)) {
+      return a + b;
     }
-    for(let i = 0; i< s.length -1 ; i++) {
-        const a = s[i];
-        const b = s[i + 1];
-        if(a !== b && map.get(a) === Number(b) && map.get(b) === Number(a)) {
-            return a + b;
-        }
-    }
-    
-    return "";
-}
-function maxDifference(s : string) : number {
-    const map : Map<string,number> = new Map() 
-    for(const char of s) {
-        map.set(char, (map.get(char) || 0) + 1);
-    }
-    const values = [...map.values()] 
-    const odd : number[] = values.filter((val) => val % 2 !== 0)
-    const even : number[] = values.filter((val) => val % 2 === 0) 
-    console.log(odd, even)
-    const result : number[] = []
-    for(const o of odd) {
-        for(const e of even) {
-            const dif = o - e
-            result.push(dif)
-        }
-        
-    }
-    return Math.max(...result)
-    
-}
-function transformArray(nums : number[]) : number[] {
-    const result : number[] = nums.reduce((acc : number[],val : number) => {
-        acc.push(val %2 ===0 ?0 :1)
-        return acc
-    },[]).sort((a,b) => a - b)
-    return result
-}
-function largestInteger(nums: number[], k : number) : number {
-    let max = -1 
-    for(let i =0 ; i < nums.length -k; i++) { 
-        const map : Map<number,number> = new Map() 
-        for(let j =i ; j < i+k; j++) {
-            map.set(nums[j], (map.get(nums[j]) || 0) + 1)
-        }
-        for(const [key,val] of map) {
-            if(val === 1) {
-                max = Math.max(max, key)
-            }
-        }
-        
-    }
-    return max
-   
-    
-} 
-function maxSum(nums: number[]) : number {
-    const set :Set<number> = new Set(nums)
-    const arr : number[] = [...set]
-    const sum = [...set].reduce((acc,val) => acc + val, 0)  
-    let result = 0
-    if(sum < 0) {
-        
-        for(const a of arr) {
-            if(a > 0) {
-                result += a
-               
-            }
-        }
-    
-    }
-    else {
-        result = sum 
-    }
-    return result
-}
-function firstStableIndex(nums: number[], k : number) : number {
-    let max = 0
-    let min = 0
-    let diff = 0
-    const index : number[] = []
-    const leftArray : number[] = []
-    
-    for(let i = 0; i <= nums.length-1;i++) {
-        leftArray.push(nums[i])
-        max = Math.max(...leftArray)
-        const rightArray : number[] = []
-        for(let j = i; j< nums.length;j++) {
-            rightArray.push(nums[j])
-        }
-        min = Math.min(...rightArray) 
-        diff = max - min 
-        if(diff <=k) {
-            index.push(i)
-        }
-        
-    }
-    return index.length === 0 ? -1 : Math.min(...index)
-}
-function findDegrees(matrix : number[][]) : number[] {
-    const result : number[] =[] 
-    for(const m of matrix) {
-        let count = 0
-        for(const n of m) {
-            if(n ===1) {
-                count++
+  }
 
-            }
-        }
-        result.push(count)
-    }
-    return result
+  return "";
 }
-function trafficSignal(timer: number) : string {
-    if(timer ===0) {
-        return "green"
+function maxDifference(s: string): number {
+  const map: Map<string, number> = new Map();
+  for (const char of s) {
+    map.set(char, (map.get(char) || 0) + 1);
+  }
+  const values = [...map.values()];
+  const odd: number[] = values.filter((val) => val % 2 !== 0);
+  const even: number[] = values.filter((val) => val % 2 === 0);
+  console.log(odd, even);
+  const result: number[] = [];
+  for (const o of odd) {
+    for (const e of even) {
+      const dif = o - e;
+      result.push(dif);
     }
-    if(timer === 30) {
-        return "yellow"
-    }
-    if(timer >= 30 && timer <= 90) {
-        return "red"
-    }
-    return "Invalid"
+  }
+  return Math.max(...result);
 }
-function smallestIndex(nums : number[]) : number {
-    const result : number[] = []
-    for(let i = 0; i< nums.length;i++) {
-        const sum = nums[i].toString().split("").reduce((acc,val) => acc + Number(val), 0)
-        if(sum ===i) {
-            result.push(i)
-        }
-        
-    }
-    return result.length === 0 ? -1 : Math.min(...result)   
+function transformArray(nums: number[]): number[] {
+  const result: number[] = nums
+    .reduce((acc: number[], val: number) => {
+      acc.push(val % 2 === 0 ? 0 : 1);
+      return acc;
+    }, [])
+    .sort((a, b) => a - b);
+  return result;
 }
-function numOfUnplacedFruits(fruits : number[], baskets : number[]) : number {
-    const sortedFruits = baskets.sort((a,b) => b - a)
-    const sortedBaskets = fruits.sort((a,b) => b - a) 
-    let i = 0
-    let j =0 
-    while(i < sortedFruits.length && j < sortedBaskets.length) {
-        if(sortedFruits[i] <= sortedBaskets[j]) {
-            i++
-            j++
-        }
-        j++
+function largestInteger(nums: number[], k: number): number {
+  let max = -1;
+  for (let i = 0; i < nums.length - k; i++) {
+    const map: Map<number, number> = new Map();
+    for (let j = i; j < i + k; j++) {
+      map.set(nums[j], (map.get(nums[j]) || 0) + 1);
     }
-    return sortedBaskets.length - j
-    
+    for (const [key, val] of map) {
+      if (val === 1) {
+        max = Math.max(max, key);
+      }
+    }
+  }
+  return max;
 }
-function maxContainers(n : number, w: number, maxWeight: number) : number { 
-    const mul = n * n * w
-    if(mul <= maxWeight ) {
-        return n *n
+function maxSum(nums: number[]): number {
+  const set: Set<number> = new Set(nums);
+  const arr: number[] = [...set];
+  const sum = [...set].reduce((acc, val) => acc + val, 0);
+  let result = 0;
+  if (sum < 0) {
+    for (const a of arr) {
+      if (a > 0) {
+        result += a;
+      }
     }
-    else {
-        return Math.floor(maxWeight / w)
-    }
-    
+  } else {
+    result = sum;
+  }
+  return result;
 }
-function reverseDegree(s: string) : number {
-    const character : string = 'abcdefghijklmnopqrstuvwxyz'
-    
-    const map : Map<string, number> = new Map() 
-    for(let i = 0; i< 26; i++) {
-        map.set(character[i], 26-i)
-    }
-    let sum =0 
-    for(let j =1 ;j <= s.length;j++) {
-       if(map.get(s[j-1])) {
-        const product = map.get(s[j-1])! * j
-        sum += product
-       }
-    }
-    return sum 
+function firstStableIndex(nums: number[], k: number): number {
+  let max = 0;
+  let min = 0;
+  let diff = 0;
+  const index: number[] = [];
+  const leftArray: number[] = [];
 
-    
+  for (let i = 0; i <= nums.length - 1; i++) {
+    leftArray.push(nums[i]);
+    max = Math.max(...leftArray);
+    const rightArray: number[] = [];
+    for (let j = i; j < nums.length; j++) {
+      rightArray.push(nums[j]);
+    }
+    min = Math.min(...rightArray);
+    diff = max - min;
+    if (diff <= k) {
+      index.push(i);
+    }
+  }
+  return index.length === 0 ? -1 : Math.min(...index);
 }
-function minimumPairRemoval(nums: number[]) : number {
-    let i =0 
-    let count = 0 
+function findDegrees(matrix: number[][]): number[] {
+  const result: number[] = [];
+  for (const m of matrix) {
+    let count = 0;
+    for (const n of m) {
+      if (n === 1) {
+        count++;
+      }
+    }
+    result.push(count);
+  }
+  return result;
+}
+function trafficSignal(timer: number): string {
+  if (timer === 0) {
+    return "green";
+  }
+  if (timer === 30) {
+    return "yellow";
+  }
+  if (timer >= 30 && timer <= 90) {
+    return "red";
+  }
+  return "Invalid";
+}
+function smallestIndex(nums: number[]): number {
+  const result: number[] = [];
+  for (let i = 0; i < nums.length; i++) {
+    const sum = nums[i]
+      .toString()
+      .split("")
+      .reduce((acc, val) => acc + Number(val), 0);
+    if (sum === i) {
+      result.push(i);
+    }
+  }
+  return result.length === 0 ? -1 : Math.min(...result);
+}
+function numOfUnplacedFruits(fruits: number[], baskets: number[]): number {
+  const sortedFruits = baskets.sort((a, b) => b - a);
+  const sortedBaskets = fruits.sort((a, b) => b - a);
+  let i = 0;
+  let j = 0;
+  while (i < sortedFruits.length && j < sortedBaskets.length) {
+    if (sortedFruits[i] <= sortedBaskets[j]) {
+      i++;
+      j++;
+    }
+    j++;
+  }
+  return sortedBaskets.length - j;
+}
+function maxContainers(n: number, w: number, maxWeight: number): number {
+  const mul = n * n * w;
+  if (mul <= maxWeight) {
+    return n * n;
+  } else {
+    return Math.floor(maxWeight / w);
+  }
+}
+function reverseDegree(s: string): number {
+  const character: string = "abcdefghijklmnopqrstuvwxyz";
 
-    while (i < nums.length-1) {
-        if(nums[i] <= nums[i+1]) {
-            i++
-        }
-        else {
-            nums.splice(i,2)
-            count++
-            i = Math.max(0, i-1)
-        }
+  const map: Map<string, number> = new Map();
+  for (let i = 0; i < 26; i++) {
+    map.set(character[i], 26 - i);
+  }
+  let sum = 0;
+  for (let j = 1; j <= s.length; j++) {
+    if (map.get(s[j - 1])) {
+      const product = map.get(s[j - 1])! * j;
+      sum += product;
     }
-    return count
+  }
+  return sum;
 }
-function minOperations(nums :number[], k : number) : number {
-    let i = 1 
-    let count =0 
-    
-    while(i <nums.length -1 ) {
-        const sum = nums.reduce((acc,val) => acc + val, 0)
-        if(sum % k ===0) {
-            return count
-        }
-        else {
-           
-        }
+function minimumPairRemoval(nums: number[]): number {
+  let i = 0;
+  let count = 0;
 
-    }
-}
-function findClosest(x: number, y : number, z: number) : number {
-    const first = Math.abs(z-x)
-    const second = Math.abs(z-y)
-    if(first < second) {
-        return 1
-    }
-    else if(first > second) {
-        return 2
-    }
-    else {
-        return 0
-    }
-}
-function maxProduct(n : number) : number {
-    const split = n.toString().split("").map(n => parseInt(n)) 
-    const result : number[] = []
-    for(let i = 0; i< split.length;i++) {
-        for(let j =i ;j < split.length;j++) {
-            if(i !== j) {
-                result.push(split[i] * split[j])
-            }
-        }
-    }
-    return Math.max(...result)
-}
-function maxFreqSum(s: string) : number {
-    const vowels : string = 'aeiou'
-    const map : Map<string, number> = new Map()
-    for(const char of s) {
-        map.set(char, (map.get(char) || 0) + 1)
-    }
-    let maxVowel = 0
-    let maxNonVowel = 0
-    for(const [key,val] of map) {
-        if(vowels.includes(key)) {
-            maxVowel = Math.max(maxVowel, val)
-        }
-        else {
-          maxNonVowel = Math.max(maxNonVowel, val)
-        }
-    }
-    return maxVowel+maxNonVowel
-}
-function minCuttingCost(n : number,m : number, k: number) : number {
- if( n <=k && m <=k) {
-    return 0
- }
- else if(n > k && m > k) {
-    return Math.min(1*(n-k),1*(m-k))
- } 
- else if(n>k) {
-    return 1*(n-k)
- }
- else if(m > k) {
-    return 1*(m-k)
- }
- else {
-    return 0
- }
- 
-}
-function generateTag(caption : string) : string {
-    let addedString = "#"
-   
-    const split = caption.split(" ")
-    for(let i = 0; i < split.length; i++) {
-        let str = split[i].toLowerCase() 
-        let word = "" 
-        if(i===0) {
-            word = str
-
-        }
-        else {
-            word = str.charAt(0).toUpperCase() + str.slice(1)
-        }
-        addedString += word
-    }
-    return addedString.slice(0,99)
-    
-}
-function checkPrime(n: number) : boolean {
-    if(n < 2) return false 
-    for(let i =2; i<n; i++) {
-        if(n % i === 0) {
-            return false
-        }
-    }
-    return true
-}
-function checkPrimeFrequency(nums : number[]) : boolean {
-    const map :Map<number,number> = new Map() 
-    for(const num of nums) {
-        map.set(num, (map.get(num) || 0) + 1)
-    }
-    for(const [key, val] of map) {
-        if(checkPrime(val)) {
-            return true
-        }
-
-    }
-    return false
-}
-function validateCoupons(codes: string[], businessLines: string[], isActive: boolean[]) : string[] {
-    const result: { code: string; line: string }[] = [];
-    const businessList : string[] = ["electronics","grocery","pharmacy","restaurant"]
-    const validLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_abcdefghijklmnopqrstuvwxyz"
-    for(let i = 0 ; i < codes.length; i++) {
-        let validCode = true
-        if(codes[i].length === 0) {
-            validCode = false 
-            
-        }
-        
-        let validLine = true 
-        let validActive = true
-        for(const char of codes[i]) {
-            if(!validLetters.includes(char)) {
-                validCode = false
-                break
-            }
-        }
-        if(!businessList.includes(businessLines[i])) {
-            validLine = false
-        }
-        if(isActive[i] === false) {
-            validActive = false
-        }
-        if(validCode && validLine && validActive) {
-            result.push({code: codes[i], line: businessLines[i]})
-        }
-        
-        
-        
-    }
-    result.sort((a, b) => {
-        if (a.line === b.line) {
-            return a.code.localeCompare(b.code);
-        }
-        return a.line.localeCompare(b.line);
-    });
-    return result.map(item => item.code);
-    
-    
-}
-function checkDivisibility(n: number ) : boolean {
-    const split = n.toString().split("").map(n => parseInt(n))
-    const plus = split.reduce((acc, val) => acc + val, 0)
-    const mul = split.reduce((acc, val) => acc * val, 1)
-    return (plus + mul) % n ===0
-}
-function gcdOfOddEvenSums(n : number) : number {
-    let oddSum = 0 
-    let evenSum = 0 
-    for(let i =1 ; i<= n*2; i++) {
-        if(i % 2 === 0) {
-            evenSum += i
-        }
-        else {
-            oddSum += i
-        }
-    }
-    let max = 0
-    for(let i = 1; i <= n; i++) {
-        if(evenSum % i === 0 && oddSum % i === 0) {
-            max = Math.max(max, i)
-        }
-    }
-    return max
-    
-}
-function getLeastFrequentDigit(n : number) : number {
-    const split = n.toString().split("").map(n => parseInt(n))
-    const map : Map<number, number> = new Map()  
-    for(const s of split) {
-        map.set(s, (map.get(s) || 0) + 1)
-    } 
-    let minNumber = Number.MAX_SAFE_INTEGER
-    const min = [...map.entries()].sort((a, b) => a[1] - b[1])[0][0]
-    for(const [key, val] of map) {
-        if(val === map.get(min)) {
-            minNumber = Math.min(minNumber, key)
-        }
-    }
-    return minNumber
-    
-} 
-function recoverOrder(order : number[], friends : number[]) : number[] { 
-    const result : number[] = [] 
-   for(let i =0 ; i < order.length; i++) {
-    for(let j =0; j< friends.length; j++) {
-        if(order[i] === friends[j]) {
-            result.push(order[i])
-        }
-    }
-   }
-    return result
-
-}
-function smallestAbsent(nums: number[]) : number {
-    let result = Infinity
-    const avg = Math.floor(nums.reduce((acc, val) => acc + val, 0) / nums.length )
-    const max = Number.MAX_SAFE_INTEGER
-    const set = new Set(nums.sort((a, b) => a - b))
-    for(let i = 0 ; i <= max; i++) {
-        if(!set.has(i) && i > avg) {
-            result = i 
-            break
-        }
-        
-    }
-    return result
-    
-    
-}
-function earliestTime(tasks : number[][]) : number {
-    let min = tasks[0].reduce((acc, val) => acc + val, 0)
-    for(const t of tasks) {
-        const sum = t.reduce((acc, val) => acc + val, 0) 
-        min = Math.max(min, sum)
-    }
-    return min 
-}
-function maxKDistinct(nums: number[], k: number) : number[] {
-    
-    const sorted = [...new Set(nums.sort((a, b) => b - a))]
-    return sorted.slice(0, k)
-    
-    
-}
-function bitwiseOR(nums: number[]) : number {
-    let result = 0 
-    for(const num of nums) {
-        result |= num 
-    }
-    return result
-}
-function evenNumberBitwiseORs(nums: number[]) : number {
-    const result : number[] = []    
-    for(const num of nums) {
-        if(num % 2 === 0) {
-            result.push(num)
-        }
-    }
-    return bitwiseOR(result)
-
-}
-function majorityFrequencyGroup(s: string) : string {
-    let result : string[] = []
-    const map : Map<string,number> =new Map() 
-    for(const char of s) {
-        map.set(char, (map.get(char) || 0) + 1)
-    }
-    const groupChar : Map<number, string[]> = new Map()
-    for(const [key,val] of map) {
-        if(!groupChar.has(val)) {
-            groupChar.set(val, [])
-        }
-        groupChar.get(val)?.push(key)
-    }
-    let groupCharMax =1 
-    for(const [key,val] of groupChar) {
-        groupCharMax = Math.max(groupCharMax, val.length)
-    }
-    let maxKey = 0 
-    for(const[key,val] of groupChar) { 
-       
-        if(val.length === groupCharMax) {
-            maxKey = Math.max(maxKey, key)  
-            
-        }
-    }
-    return groupChar.get(maxKey)?.join("") || ""
-}
-function alternatingSum(nums : number[]) : number {
-    if(nums.length ===1) return nums[0]
-    let sum =0 
-    for(let i = 0; i< nums.length;i++){
-        if(i % 2 === 0) {
-            sum += nums[i]
-        } else {
-            sum -= nums[i]
-        }   
-
-    }
-    
-    return  sum 
-}
-function scoreBalance(s: string) : boolean {
-    const letters = "abcdefghijklmnopqrstuvwxyz"
-    const map : Map<string,number> = new Map() 
-    for(let i =1; i<27;i++) {
-        map.set(letters[i-1], i)
-    }
-    let total = 0
-    for(let  i =0 ;i< s.length; i++) {
-        if(map.has(s[i])) {
-            total += map.get(s[i])!
-        }
-    }
-    let leftSum = 0 
-    let rightSum = 0
-    for(let i = 0; i< s.length-1 ; i++) {
-        if(map.has(s[i])) {
-            leftSum += map.get(s[i])!
-        }
-        rightSum = total - leftSum
-        if(leftSum === rightSum) {
-            return true
-        }
-    }
-    return false
-    
-    
-}
-function sumDivisibleByK(nums : number[], k: number) : number {
-    const map : Map<number, number> = new Map()
-    for(const num of nums) {
-        map.set(num,(map.get(num) || 0) + 1 )
-    }
-    const result : number[] = [] 
-    for(const[key,val] of map) {
-        if(val % k ===0) {
-            result.push(key)
-        }
-    }
-    let sum = 0
-    for(const num of nums) { 
-        for(const r of result) {
-            if(num === r) {
-               sum += num
-            }
-        }
-        
-    }
-    return sum 
-}
-function missingMultiple(nums :number[], k : number) : number {
-    let max = Number.MAX_SAFE_INTEGER 
-    const set = new Set([...nums.sort((a, b) => a - b)])
-
-    for(let i = 0; i < max ;i++) {
-          if(i % k === 0 && !set.has(i)) {
-              return i 
-          }
-    }
-    return -1
-}
-function removeZeros(n : number) : number {
-    const split = n.toString().split("").map(n => parseInt(n))
-    const result : number[] = []
-    for(const s of split) {
-        if(s === 0) {
-           continue
-        }
-        else {
-            result.push(s)
-        }
-    }
-    return parseInt(result.join(""))
-}
-function findMissingElements(nums: number[]) : number[] {
-    const result : number[] = []
-    const sorted = nums.sort((a, b) => a - b)
-    const set = new Set([...sorted])
-    for(let i = sorted[0]; i <= sorted[sorted.length -1]; i++) {
-        if(!set.has(i)) {
-            result.push(i)
-        }
-    }
-    return result
-}
-
-function reverseByType(s: string) : string {
-  const letters : string[] = [] 
-  const chars : string[] = [] 
-  for(const char of s) {
-    if(char >= "a" && char <= "z") {
-      letters.push(char)
+  while (i < nums.length - 1) {
+    if (nums[i] <= nums[i + 1]) {
+      i++;
     } else {
-      chars.push(char)
+      nums.splice(i, 2);
+      count++;
+      i = Math.max(0, i - 1);
     }
   }
-  
-  const str = s.split("")
-  for(let i =0 ;i < s.length; i++) {
-    if(str[i] >= "a" && str[i]<= "z") {
-      str[i] = letters.pop()!
+  return count;
+}
+function minOperations(nums: number[], k: number): number {
+  let i = 1;
+  let count = 0;
+
+  while (i < nums.length - 1) {
+    const sum = nums.reduce((acc, val) => acc + val, 0);
+    if (sum % k === 0) {
+      return count;
     } else {
-      str[i] = chars.pop()!
     }
   }
-  return str.join("")
-    
-  
-  
-
 }
-function countMonobit(n : number) : number {
-  let count = 0
-  const bits : string[] = [] 
-  for(let i = 0; i <=n; i++) {
-    bits.push(i.toString(2))
+function findClosest(x: number, y: number, z: number): number {
+  const first = Math.abs(z - x);
+  const second = Math.abs(z - y);
+  if (first < second) {
+    return 1;
+  } else if (first > second) {
+    return 2;
+  } else {
+    return 0;
   }
-  for(const b of bits) {
-    const set = new Set(b)
-    if(set.size === 1) {
-      count++
+}
+function maxProduct(n: number): number {
+  const split = n
+    .toString()
+    .split("")
+    .map((n) => parseInt(n));
+  const result: number[] = [];
+  for (let i = 0; i < split.length; i++) {
+    for (let j = i; j < split.length; j++) {
+      if (i !== j) {
+        result.push(split[i] * split[j]);
+      }
     }
   }
-  return count
+  return Math.max(...result);
 }
-function toggleLightBulbs(bulbs : number[]) : number[] {
-  const set : Set<number> = new Set() 
-  for(let i = 0; i < bulbs.length; i++) {
-    if(!set.has(bulbs[i])) {
-      set.add(bulbs[i])
+function maxFreqSum(s: string): number {
+  const vowels: string = "aeiou";
+  const map: Map<string, number> = new Map();
+  for (const char of s) {
+    map.set(char, (map.get(char) || 0) + 1);
+  }
+  let maxVowel = 0;
+  let maxNonVowel = 0;
+  for (const [key, val] of map) {
+    if (vowels.includes(key)) {
+      maxVowel = Math.max(maxVowel, val);
     } else {
-      set.delete(bulbs[i])
+      maxNonVowel = Math.max(maxNonVowel, val);
     }
   }
-  return [...set].sort((a, b) => a - b)
+  return maxVowel + maxNonVowel;
 }
-function minDistinctFreqPair(nums : number[]) : number[] {
-  const x  :number = Math.min(...nums)
-  const map : Map<number, number> = new Map()
-  for(const num of nums) {
-    map.set(num, (map.get(num) || 0) + 1)
+function minCuttingCost(n: number, m: number, k: number): number {
+  if (n <= k && m <= k) {
+    return 0;
+  } else if (n > k && m > k) {
+    return Math.min(1 * (n - k), 1 * (m - k));
+  } else if (n > k) {
+    return 1 * (n - k);
+  } else if (m > k) {
+    return 1 * (m - k);
+  } else {
+    return 0;
   }
-  const result : number[] = [x]
-  for(const [key,val] of map) {
-    if(key !==x && val !== map.get(x)!) {
-      result.push(key)
-    }
-  }
-  return result.length === 0 ? [-1,-1] : result.sort((a, b) => a - b).slice(0,2)
-  
 }
-function uniformArray(num1 : number[]) :  boolean { 
-  const num2 : number[] = [] 
-  for(let i = 0; i< num1.length; i++) {
-    for(let j =i+1; j<num1.length; j++) {
-      if(i === j) {
-        num2.push(num1[i])
-      }
-      else {
-        num2.push(num1[i] -num1[j])
-      }
-    }
-  }
-  console.log(num2)
-  let valid = false 
-  const result : boolean[] = []
-  for(const r of num2)  {
-    if(r % 2 === 0) {
-      valid = true 
-      result.push(valid)  
-    }
-    else {
-      result.push(valid)
-    }
-  }
-  console.log(result) 
-  for(const r of result) {
-    if( r !== result[0]) {
-      return false
-    }
-  }
-  return true 
+function generateTag(caption: string): string {
+  let addedString = "#";
 
+  const split = caption.split(" ");
+  for (let i = 0; i < split.length; i++) {
+    let str = split[i].toLowerCase();
+    let word = "";
+    if (i === 0) {
+      word = str;
+    } else {
+      word = str.charAt(0).toUpperCase() + str.slice(1);
+    }
+    addedString += word;
+  }
+  return addedString.slice(0, 99);
 }
-
-function minAbsoluteDifference(nums : number[]) : number {
-  const result : number[] = []
-  for(let i = 0 ;i < nums.length; i++) {
-    for(let j = i+1; j< nums.length; j++) {
-      if(nums[i] === 1 && nums[j] === 2 || nums[i] === 2 && nums[j] === 1) {
-        result.push(Math.abs(i - j))
-        
-      }
+function checkPrime(n: number): boolean {
+  if (n < 2) return false;
+  for (let i = 2; i < n; i++) {
+    if (n % i === 0) {
+      return false;
     }
   }
-  return result.length === 0 ? -1 : Math.min(...result)
+  return true;
 }
-function strStr(haystack : string, needle : string) : number {
-  const n = needle.length
-  for(let i = 0 ; i <= haystack.length-n;i++) {
-    const slice = haystack.slice(i, i + n)
-    if(slice === needle) {
-      return i
+function checkPrimeFrequency(nums: number[]): boolean {
+  const map: Map<number, number> = new Map();
+  for (const num of nums) {
+    map.set(num, (map.get(num) || 0) + 1);
+  }
+  for (const [key, val] of map) {
+    if (checkPrime(val)) {
+      return true;
     }
   }
-  return -1 
+  return false;
 }
-function findDisappearedNumbers(nums : number[]) : number[] {
-  let result : number[] = []
-  const set : Set<number> = new Set(nums)
-  for(let i = 1; i<= nums.length; i++) {
-    if(!set.has(i)) {
-      result.push(i)
-    }
-  }
-  return result
-}
-function findContentChildren(g :number[] , s : number[]) : number {
-  let count = 0
-  for(let i = 0; i < g.length; i++) {
-    for(let j =0 ; j < s.length; j++) {
-      if(g[i] <= s[j]) {
-        s.splice(i, j)
-        count++
-        
-      }
+function validateCoupons(
+  codes: string[],
+  businessLines: string[],
+  isActive: boolean[]
+): string[] {
+  const result: { code: string; line: string }[] = [];
+  const businessList: string[] = [
+    "electronics",
+    "grocery",
+    "pharmacy",
+    "restaurant",
+  ];
+  const validLetters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_abcdefghijklmnopqrstuvwxyz";
+  for (let i = 0; i < codes.length; i++) {
+    let validCode = true;
+    if (codes[i].length === 0) {
+      validCode = false;
     }
 
-    
+    let validLine = true;
+    let validActive = true;
+    for (const char of codes[i]) {
+      if (!validLetters.includes(char)) {
+        validCode = false;
+        break;
+      }
+    }
+    if (!businessList.includes(businessLines[i])) {
+      validLine = false;
+    }
+    if (isActive[i] === false) {
+      validActive = false;
+    }
+    if (validCode && validLine && validActive) {
+      result.push({ code: codes[i], line: businessLines[i] });
+    }
   }
-  return count
+  result.sort((a, b) => {
+    if (a.line === b.line) {
+      return a.code.localeCompare(b.code);
+    }
+    return a.line.localeCompare(b.line);
+  });
+  return result.map((item) => item.code);
 }
-function numberOfLines(widths : number[], s: string) : number[] {
-  const result : number[] = [] 
-  const letters : string = "abcdefghijklmnopqrstuvwxyz"
-  const map : Map<string,number> = new Map()  
-  for(let i = 0; i < letters.length; i++) {
-    map.set(letters[i], widths[i])
+function checkDivisibility(n: number): boolean {
+  const split = n
+    .toString()
+    .split("")
+    .map((n) => parseInt(n));
+  const plus = split.reduce((acc, val) => acc + val, 0);
+  const mul = split.reduce((acc, val) => acc * val, 1);
+  return (plus + mul) % n === 0;
+}
+function gcdOfOddEvenSums(n: number): number {
+  let oddSum = 0;
+  let evenSum = 0;
+  for (let i = 1; i <= n * 2; i++) {
+    if (i % 2 === 0) {
+      evenSum += i;
+    } else {
+      oddSum += i;
+    }
   }
-  let score = 0 
-  
-  for(const str of s) {
-    let count = 0 
-    if(map.has(str)) {
-      score += map.get(str)!
-      if(score <= 100) {
-        count++
+  let max = 0;
+  for (let i = 1; i <= n; i++) {
+    if (evenSum % i === 0 && oddSum % i === 0) {
+      max = Math.max(max, i);
+    }
+  }
+  return max;
+}
+function getLeastFrequentDigit(n: number): number {
+  const split = n
+    .toString()
+    .split("")
+    .map((n) => parseInt(n));
+  const map: Map<number, number> = new Map();
+  for (const s of split) {
+    map.set(s, (map.get(s) || 0) + 1);
+  }
+  let minNumber = Number.MAX_SAFE_INTEGER;
+  const min = [...map.entries()].sort((a, b) => a[1] - b[1])[0][0];
+  for (const [key, val] of map) {
+    if (val === map.get(min)) {
+      minNumber = Math.min(minNumber, key);
+    }
+  }
+  return minNumber;
+}
+function recoverOrder(order: number[], friends: number[]): number[] {
+  const result: number[] = [];
+  for (let i = 0; i < order.length; i++) {
+    for (let j = 0; j < friends.length; j++) {
+      if (order[i] === friends[j]) {
+        result.push(order[i]);
+      }
+    }
+  }
+  return result;
+}
+function smallestAbsent(nums: number[]): number {
+  let result = Infinity;
+  const avg = Math.floor(nums.reduce((acc, val) => acc + val, 0) / nums.length);
+  const max = Number.MAX_SAFE_INTEGER;
+  const set = new Set(nums.sort((a, b) => a - b));
+  for (let i = 0; i <= max; i++) {
+    if (!set.has(i) && i > avg) {
+      result = i;
+      break;
+    }
+  }
+  return result;
+}
+function earliestTime(tasks: number[][]): number {
+  let min = tasks[0].reduce((acc, val) => acc + val, 0);
+  for (const t of tasks) {
+    const sum = t.reduce((acc, val) => acc + val, 0);
+    min = Math.max(min, sum);
+  }
+  return min;
+}
+function maxKDistinct(nums: number[], k: number): number[] {
+  const sorted = [...new Set(nums.sort((a, b) => b - a))];
+  return sorted.slice(0, k);
+}
+function bitwiseOR(nums: number[]): number {
+  let result = 0;
+  for (const num of nums) {
+    result |= num;
+  }
+  return result;
+}
+function evenNumberBitwiseORs(nums: number[]): number {
+  const result: number[] = [];
+  for (const num of nums) {
+    if (num % 2 === 0) {
+      result.push(num);
+    }
+  }
+  return bitwiseOR(result);
+}
+function majorityFrequencyGroup(s: string): string {
+  let result: string[] = [];
+  const map: Map<string, number> = new Map();
+  for (const char of s) {
+    map.set(char, (map.get(char) || 0) + 1);
+  }
+  const groupChar: Map<number, string[]> = new Map();
+  for (const [key, val] of map) {
+    if (!groupChar.has(val)) {
+      groupChar.set(val, []);
+    }
+    groupChar.get(val)?.push(key);
+  }
+  let groupCharMax = 1;
+  for (const [key, val] of groupChar) {
+    groupCharMax = Math.max(groupCharMax, val.length);
+  }
+  let maxKey = 0;
+  for (const [key, val] of groupChar) {
+    if (val.length === groupCharMax) {
+      maxKey = Math.max(maxKey, key);
+    }
+  }
+  return groupChar.get(maxKey)?.join("") || "";
+}
+function alternatingSum(nums: number[]): number {
+  if (nums.length === 1) return nums[0];
+  let sum = 0;
+  for (let i = 0; i < nums.length; i++) {
+    if (i % 2 === 0) {
+      sum += nums[i];
+    } else {
+      sum -= nums[i];
+    }
+  }
+
+  return sum;
+}
+function scoreBalance(s: string): boolean {
+  const letters = "abcdefghijklmnopqrstuvwxyz";
+  const map: Map<string, number> = new Map();
+  for (let i = 1; i < 27; i++) {
+    map.set(letters[i - 1], i);
+  }
+  let total = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (map.has(s[i])) {
+      total += map.get(s[i])!;
+    }
+  }
+  let leftSum = 0;
+  let rightSum = 0;
+  for (let i = 0; i < s.length - 1; i++) {
+    if (map.has(s[i])) {
+      leftSum += map.get(s[i])!;
+    }
+    rightSum = total - leftSum;
+    if (leftSum === rightSum) {
+      return true;
+    }
+  }
+  return false;
+}
+function sumDivisibleByK(nums: number[], k: number): number {
+  const map: Map<number, number> = new Map();
+  for (const num of nums) {
+    map.set(num, (map.get(num) || 0) + 1);
+  }
+  const result: number[] = [];
+  for (const [key, val] of map) {
+    if (val % k === 0) {
+      result.push(key);
+    }
+  }
+  let sum = 0;
+  for (const num of nums) {
+    for (const r of result) {
+      if (num === r) {
+        sum += num;
+      }
+    }
+  }
+  return sum;
+}
+function missingMultiple(nums: number[], k: number): number {
+  let max = Number.MAX_SAFE_INTEGER;
+  const set = new Set([...nums.sort((a, b) => a - b)]);
+
+  for (let i = 0; i < max; i++) {
+    if (i % k === 0 && !set.has(i)) {
+      return i;
+    }
+  }
+  return -1;
+}
+function removeZeros(n: number): number {
+  const split = n
+    .toString()
+    .split("")
+    .map((n) => parseInt(n));
+  const result: number[] = [];
+  for (const s of split) {
+    if (s === 0) {
+      continue;
+    } else {
+      result.push(s);
+    }
+  }
+  return parseInt(result.join(""));
+}
+function findMissingElements(nums: number[]): number[] {
+  const result: number[] = [];
+  const sorted = nums.sort((a, b) => a - b);
+  const set = new Set([...sorted]);
+  for (let i = sorted[0]; i <= sorted[sorted.length - 1]; i++) {
+    if (!set.has(i)) {
+      result.push(i);
+    }
+  }
+  return result;
+}
+
+function reverseByType(s: string): string {
+  const letters: string[] = [];
+  const chars: string[] = [];
+  for (const char of s) {
+    if (char >= "a" && char <= "z") {
+      letters.push(char);
+    } else {
+      chars.push(char);
+    }
+  }
+
+  const str = s.split("");
+  for (let i = 0; i < s.length; i++) {
+    if (str[i] >= "a" && str[i] <= "z") {
+      str[i] = letters.pop()!;
+    } else {
+      str[i] = chars.pop()!;
+    }
+  }
+  return str.join("");
+}
+function countMonobit(n: number): number {
+  let count = 0;
+  const bits: string[] = [];
+  for (let i = 0; i <= n; i++) {
+    bits.push(i.toString(2));
+  }
+  for (const b of bits) {
+    const set = new Set(b);
+    if (set.size === 1) {
+      count++;
+    }
+  }
+  return count;
+}
+function toggleLightBulbs(bulbs: number[]): number[] {
+  const set: Set<number> = new Set();
+  for (let i = 0; i < bulbs.length; i++) {
+    if (!set.has(bulbs[i])) {
+      set.add(bulbs[i]);
+    } else {
+      set.delete(bulbs[i]);
+    }
+  }
+  return [...set].sort((a, b) => a - b);
+}
+function minDistinctFreqPair(nums: number[]): number[] {
+  const x: number = Math.min(...nums);
+  const map: Map<number, number> = new Map();
+  for (const num of nums) {
+    map.set(num, (map.get(num) || 0) + 1);
+  }
+  const result: number[] = [x];
+  for (const [key, val] of map) {
+    if (key !== x && val !== map.get(x)!) {
+      result.push(key);
+    }
+  }
+  return result.length === 0
+    ? [-1, -1]
+    : result.sort((a, b) => a - b).slice(0, 2);
+}
+function uniformArray(num1: number[]): boolean {
+  const num2: number[] = [];
+  for (let i = 0; i < num1.length; i++) {
+    for (let j = i + 1; j < num1.length; j++) {
+      if (i === j) {
+        num2.push(num1[i]);
+      } else {
+        num2.push(num1[i] - num1[j]);
+      }
+    }
+  }
+  console.log(num2);
+  let valid = false;
+  const result: boolean[] = [];
+  for (const r of num2) {
+    if (r % 2 === 0) {
+      valid = true;
+      result.push(valid);
+    } else {
+      result.push(valid);
+    }
+  }
+  console.log(result);
+  for (const r of result) {
+    if (r !== result[0]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function minAbsoluteDifference(nums: number[]): number {
+  const result: number[] = [];
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; j++) {
+      if (
+        (nums[i] === 1 && nums[j] === 2) ||
+        (nums[i] === 2 && nums[j] === 1)
+      ) {
+        result.push(Math.abs(i - j));
+      }
+    }
+  }
+  return result.length === 0 ? -1 : Math.min(...result);
+}
+function strStr(haystack: string, needle: string): number {
+  const n = needle.length;
+  for (let i = 0; i <= haystack.length - n; i++) {
+    const slice = haystack.slice(i, i + n);
+    if (slice === needle) {
+      return i;
+    }
+  }
+  return -1;
+}
+function findDisappearedNumbers(nums: number[]): number[] {
+  let result: number[] = [];
+  const set: Set<number> = new Set(nums);
+  for (let i = 1; i <= nums.length; i++) {
+    if (!set.has(i)) {
+      result.push(i);
+    }
+  }
+  return result;
+}
+function findContentChildren(g: number[], s: number[]): number {
+  let count = 0;
+  for (let i = 0; i < g.length; i++) {
+    for (let j = 0; j < s.length; j++) {
+      if (g[i] <= s[j]) {
+        s.splice(i, j);
+        count++;
+      }
+    }
+  }
+  return count;
+}
+function numberOfLines(widths: number[], s: string): number[] {
+  const result: number[] = [];
+  const letters: string = "abcdefghijklmnopqrstuvwxyz";
+  const map: Map<string, number> = new Map();
+  for (let i = 0; i < letters.length; i++) {
+    map.set(letters[i], widths[i]);
+  }
+  let score = 0;
+
+  for (const str of s) {
+    let count = 0;
+    if (map.has(str)) {
+      score += map.get(str)!;
+      if (score <= 100) {
+        count++;
       }
     }
   }
 }
-function findJudge(n : number, trust: number[][]) : number {
-  let result = -1 
-  let valid = true
-  if(trust.length === 1) {
-    return trust[0][1]
+function findJudge(n: number, trust: number[][]): number {
+  let result = -1;
+  let valid = true;
+  if (trust.length === 1) {
+    return trust[0][1];
   }
-  for(let i =1; i< trust.length; i++) {
-    if(trust[i][1] !== trust[0][1]) {
-      valid = false
-    }
-    
-  }
-  if(valid) {
-    result = trust[0][1]
-  }
-  return result
-}
-function gcdOfStrings(str1 : string, str2: string) : string {
-  for(let i = 0; i< str1.length; i++) {
-    const slice1 = str1.slice(i,i+1)
-    const slice2 = str2.slice(i,i+1)
-    const slice3= str1.slice(i+1,) 
-    if(slice1 === slice2 && slice3 === slice2) {
-      return slice1
+  for (let i = 1; i < trust.length; i++) {
+    if (trust[i][1] !== trust[0][1]) {
+      valid = false;
     }
   }
-}
-function countCharacters(words: string[], chars: string) : number {
-  const map: Map<string, number> = new Map() 
-  for(const char of chars) {
-    map.set(char, (map.get(char) || 0) + 1)
+  if (valid) {
+    result = trust[0][1];
   }
-  let length = 0 
-  for(const word of words) {
-    let valid = true
-    for(const char of word) { 
-      if(!map.has(char)) {
-        valid = false
-        break
+  return result;
+}
+function gcdOfStrings(str1: string, str2: string): string {
+  for (let i = 0; i < str1.length; i++) {
+    const slice1 = str1.slice(i, i + 1);
+    const slice2 = str2.slice(i, i + 1);
+    const slice3 = str1.slice(i + 1);
+    if (slice1 === slice2 && slice3 === slice2) {
+      return slice1;
+    }
+  }
+}
+function countCharacters(words: string[], chars: string): number {
+  const map: Map<string, number> = new Map();
+  for (const char of chars) {
+    map.set(char, (map.get(char) || 0) + 1);
+  }
+  let length = 0;
+  for (const word of words) {
+    let valid = true;
+    for (const char of word) {
+      if (!map.has(char)) {
+        valid = false;
+        break;
       }
-
     }
-    if(valid) {
-      length += word.length
+    if (valid) {
+      length += word.length;
     }
   }
-  return length
+  return length;
 }
-function minimumAbsDifference(arr: number[]) : number[][] {
-  arr.sort((a,b) => a - b)
-  let compare = Math.abs(arr[0] - arr[1])
-  for(let i =2 ; i< arr.length; i++) {
-    if(Math.abs(arr[i] - arr[i-1]) < compare) {
-      compare = Math.abs(arr[i] - arr[i-1])
+function minimumAbsDifference(arr: number[]): number[][] {
+  arr.sort((a, b) => a - b);
+  let compare = Math.abs(arr[0] - arr[1]);
+  for (let i = 2; i < arr.length; i++) {
+    if (Math.abs(arr[i] - arr[i - 1]) < compare) {
+      compare = Math.abs(arr[i] - arr[i - 1]);
     }
   }
-  console.log(compare )
-  const result : number[][] = [] 
-  for(let i = 1; i<arr.length; i++) {
-    if(arr[i] - arr[i-1] === compare) {
-      result.push([arr[i-1], arr[i]])
+  console.log(compare);
+  const result: number[][] = [];
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] - arr[i - 1] === compare) {
+      result.push([arr[i - 1], arr[i]]);
     }
-    
   }
-  return result
-
+  return result;
 }
 function decompressRLElist(nums: number[]): number[] {
   const result: number[] = [];
@@ -2380,434 +2339,897 @@ function decompressRLElist(nums: number[]): number[] {
     temp.push([nums[i], nums[i + 1]]);
   }
   for (let j = 0; j < temp.length; j++) {
-    for(let k =0; k< temp[j][0]; k++) {
-      result.push(temp[j][1])
+    for (let k = 0; k < temp[j][0]; k++) {
+      result.push(temp[j][1]);
     }
   }
   return result;
 }
-function sortByBits(arr: number[]) : number[] {
-  const map : Map<number, number> = new Map()
-  for(const a of arr) {
-    const bit = a.toString(2)
-    let count1 = 0
-    for(const b of bit) {
-      if(b ==="1") {
-        count1++
+function sortByBits(arr: number[]): number[] {
+  const map: Map<number, number> = new Map();
+  for (const a of arr) {
+    const bit = a.toString(2);
+    let count1 = 0;
+    for (const b of bit) {
+      if (b === "1") {
+        count1++;
       }
     }
-    map.set(a, count1)
+    map.set(a, count1);
   }
-  return arr.sort((a,b) => {
-    if(map.get(a) === map.get(b)) {
-      return a - b
+  return arr.sort((a, b) => {
+    if (map.get(a) === map.get(b)) {
+      return a - b;
     }
-    return map.get(a)! - map.get(b)!
-  })
-  
+    return map.get(a)! - map.get(b)!;
+  });
 }
-function countLargestGroup(n: number) : number  {
-  if(n <10) return n
-  const map : Map<number, number> = new Map()
-  const result : number[][] =[]
-  for(let i = n; i>=1; i--) {
-    const split = i.toString().split("").map(n => parseInt(n))
-    let reduce = split.reduce((acc,val) => acc + val, 0)
-    if(split.length ===1) {
-      reduce = 0
+function countLargestGroup(n: number): number {
+  if (n < 10) return n;
+  const map: Map<number, number> = new Map();
+  const result: number[][] = [];
+  for (let i = n; i >= 1; i--) {
+    const split = i
+      .toString()
+      .split("")
+      .map((n) => parseInt(n));
+    let reduce = split.reduce((acc, val) => acc + val, 0);
+    if (split.length === 1) {
+      reduce = 0;
     }
-    map.set(i, reduce)
+    map.set(i, reduce);
   }
-  for(const [key,val] of map) {
-    if(val ===0) {
-      continue
+  for (const [key, val] of map) {
+    if (val === 0) {
+      continue;
+    } else {
+      result.push([key, val]);
     }
-    else {
-      result.push([key,val])
-    }
   }
-  for(const r of result) {
-    
+  for (const r of result) {
   }
-  return result.length
+  return result.length;
 }
-function maxScore(s: string) : number {
-  if(s.split("").filter((char) => char === "0").length === s.length) return 1
-  let max = 0 
-  for(let i = 0; i< s.length-1;i++) {
-    const left = s.slice(0,i+1)
-    const right = s.slice(i+1)
-    const leftScore = left.split("").filter((char) => char === "0").length
-    
-    const rightScore = right.split("").reduce((acc,val) => acc + Number(val), 0)
-    max = Math.max(max, leftScore + rightScore)
+function maxScore(s: string): number {
+  if (s.split("").filter((char) => char === "0").length === s.length) return 1;
+  let max = 0;
+  for (let i = 0; i < s.length - 1; i++) {
+    const left = s.slice(0, i + 1);
+    const right = s.slice(i + 1);
+    const leftScore = left.split("").filter((char) => char === "0").length;
+
+    const rightScore = right
+      .split("")
+      .reduce((acc, val) => acc + Number(val), 0);
+    max = Math.max(max, leftScore + rightScore);
   }
-  return max
-  
+  return max;
 }
-function canBeEqual(target : number[], arr : number[]) : boolean {
-  
-    const targetSort = target.sort((a,b) => a - b)
-    const arrSort = arr.sort((a,b) => a - b)
-    for(let i = 0; i< targetSort.length; i++) {
-      if(targetSort[i] !== arrSort[i]) {
-        return false
+function canBeEqual(target: number[], arr: number[]): boolean {
+  const targetSort = target.sort((a, b) => a - b);
+  const arrSort = arr.sort((a, b) => a - b);
+  for (let i = 0; i < targetSort.length; i++) {
+    if (targetSort[i] !== arrSort[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+function countPairs(nums: number[], k: number): number {
+  let count = 0;
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; j++) {
+      if (nums[i] === nums[j] && (nums[i] * nums[j]) % k === 0) {
+        count++;
       }
     }
-    return true
-  
-  
+  }
+  return count;
 }
-function countPairs(nums : number[], k: number) : number {
-  let count = 0
-  for(let i = 0; i< nums.length; i++) {
-    for(let j =i+1; j< nums.length; j++) {
-      if(nums[i] === nums[j] && (nums[i] * nums[j]) % k === 0) {
-        count++
-      }
+function countEven(num: number): number {
+  let count = 0;
+  for (let i = 2; i <= num; i++) {
+    const str = i
+      .toString()
+      .split("")
+      .map((n) => parseInt(n));
+    const reduce = str.reduce((acc, val) => acc + val, 0);
+    if (reduce % 2 === 0) {
+      return count++;
     }
   }
-  return count
-}
-function countEven(num : number) : number {
-  let count =0 
-  for(let i = 2; i<= num; i++) {
-    const str = i.toString().split("").map(n => parseInt(n))
-    const reduce = str.reduce((acc,val) => acc + val, 0)
-    if(reduce % 2 === 0) {
-      return count++
-    }
-  }
-  return count
+  return count;
 }
 function prefixCount(words: string[], pref: string): number {
-  let count = 0
-    for(const word of words) {
-     if(word.startsWith(pref)) {
-       count++
-     }
+  let count = 0;
+  for (const word of words) {
+    if (word.startsWith(pref)) {
+      count++;
     }
-    return count
+  }
+  return count;
+}
+function mostFrequent(nums: number[], key: number): number {
+  let max = 0;
+  let result = 0;
+  const map: Map<number, number> = new Map();
+  for (let i = 0; i < nums.length - 1; i++) {
+    if (nums[i] === key) {
+      const target = nums[i + 1];
+      map.set(target, (map.get(target) || 0) + 1);
+    }
+  }
+  for (const [key, val] of map) {
+    max = Math.max(max, val);
+  }
+  for (const [key, val] of map) {
+    if (val === max) {
+      result = key;
+    }
+  }
+  return result;
+}
+function divideArray(nums: number[]): boolean {
+  nums.sort((a, b) => a - b);
+  for (let i = 0; i < nums.length - 1; i += 2) {
+    if (nums[i] !== nums[i + 1]) {
+      return false;
+    }
+  }
+  return true;
+}
+function minBitFlips(start: number, goal: number): number {
+  const startBit = start.toString(2);
+  const goalBit = goal.toString(2);
+  let count = 0;
+  for (let i = startBit.length - 1; i <= 0; i--) {
+    if (startBit[i] !== goalBit[i]) {
+    }
+
+    return count;
+  }
+}
+function findKDistantIndices(nums: number[], key: number, k: number): number[] {
+  const result: number[] = [];
+  const index: number[] = [];
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === key) {
+      index.push(i);
+    }
+  }
+  console.log(index);
+  for (const ins of index) {
+    for (let i = 0; i < nums.length; i++) {
+      if (Math.abs(i - ins) <= k) {
+        result.push(i);
+      }
+    }
+  }
+  return [...new Set(result)].sort((a, b) => a - b);
+}
+function removeDigit(number: string, digit: string) {
+  let max = 0;
+  for (let i = 0; i < number.length; i++) {
+    if (number[i] === digit) {
+      const newNum = number.slice(0, i) + number.slice(i + 1);
+      max = Math.max(max, parseInt(newNum));
+    }
+  }
+  return max.toString();
+}
+function checkDistances(s: string, distance: number[]): boolean {
+  for (let i = 0; i < s.length; i++) {
+    for (let j = i + 1; j < s.length; j++) {
+      if (s[i] === s[j]) {
+        const dist = Math.abs(i - j - 1);
+        const charCode = s[i].charCodeAt(0) - "a".charCodeAt(0);
+        if (dist !== distance[charCode]) {
+          return false;
+        }
+      }
+    }
+  }
+  return true;
+}
+function smallestEvenMultiple(n: number): number {
+  let max = Infinity;
+  for (let i = n; i < max; i++) {
+    if (i % n === 0 && i % 2 === 0) {
+      max = i;
+      break;
+    }
+  }
+  return max;
+}
+function oddString(words: string[]): string {
+  const mapCheck: Map<string, string[]> = new Map();
+  const map: Map<string, number[]> = new Map();
+  const letters = "abcdefghijklmnopqrstuvwxyz";
+  for (let i = 0; i < 26; i++) {
+    map.set(letters[i], [i]);
+  }
+  for (const word of words) {
+    const difference: number[] = [];
+    for (let i = 1; i < word.length; i++) {
+      if (map.has(word[i]) && map.has(word[i - 1])) {
+        const diff = map.get(word[i])![0] - map.get(word[i - 1])![0];
+        difference.push(diff);
+      }
+    }
+    const key = difference.join(",");
+    if (!mapCheck.has(key)) {
+      mapCheck.set(key, []);
+    }
+    mapCheck.get(key)?.push(word);
+  }
+  for (const [key, val] of mapCheck) {
+    if (val.length === 1) {
+      return val[0];
+    }
+  }
+  return "";
+}
+function convertTemperature(celsius: number): number[] {
+  const fahrenheit = celsius * 1.8 + 32.0;
+  const kelvin = celsius + 273.15;
+  return [fahrenheit, kelvin];
+}
+function numberOfCuts(n: number): number {
+  if (n % 2 === 0) {
+    return n / 2;
+  } else if (n === 1) {
+    return 0;
+  } else {
+    return n;
+  }
+}
+function deleteGreatestValue(grid: number[][]): number {
+  for (const g of grid) {
+    g.sort((a, b) => a - b);
+  }
+  const m = grid.length;
+  const n = grid[0].length;
+  let sum = 0;
+  for (let i = 0; i < n; i++) {
+    let max = 0;
+    for (let j = 0; j < m; j++) {
+      max = Math.max(max, grid[j][i]);
+    }
+    sum += max;
+  }
+  return sum;
+}
+
+function captureForts(forts: number[]): number {
+  if (
+    forts.filter((f) => f === 1).length === 0 ||
+    forts.filter((f) => f === -1).length === 0
+  ) {
+    return 0;
+  }
+  const mapCheck: Map<number, number[]> = new Map();
+  for (let i = 0; i < forts.length; i++) {
+    if (forts[i] !== 0) {
+      if (!mapCheck.has(forts[i])) {
+        mapCheck.set(forts[i], []);
+      }
+      mapCheck.get(forts[i])?.push(i);
+    }
+  }
+  const values: number[][] = [];
+  for (const [key, val] of mapCheck) {
+    values.push([...val]);
+  }
+  const concat = values
+    .reduce((acc, val) => acc.concat(val), [])
+    .sort((a, b) => a - b);
+  let max = 0;
+  for (let j = 1; j < concat.length; j++) {
+    let valid = true;
+    const left = concat[j - 1];
+    const right = concat[j];
+    if (forts[left] !== forts[right]) {
+      for (let i = left + 1; i < right; i++) {
+        if (forts[i] !== 0) {
+          valid = false;
+          break;
+        }
+      }
+      if (valid) {
+        max = Math.max(max, right - left - 1);
+      }
+    }
+  }
+  return max;
+}
+function pickGifts(gifts: number[], k: number): number[] {
+  gifts.sort((a, b) => b - a);
+  const result: number[] = [];
+  let sum = 0;
+  let sqrt = 0;
+  for (let i = 0; i < k; i++) {
+    result.sort((a, b) => b - a);
+    if (gifts[i] > result[result.length - 1]) {
+      sqrt = Math.floor(Math.sqrt(gifts[i]));
+      result.push(sqrt);
+    } else {
+      sqrt = Math.floor(Math.sqrt(result[result.length - 1]));
+      result.push(sqrt);
+    }
+  }
+  return result;
+}
+function passThePillow(n: number, timer: number): number {
+  let count = 0;
+  const result: number[] = [];
+  for (let i = 0; i <= timer; i++) {
+    if (count < n) {
+      count++;
+      result.push(count);
+    } else {
+      count--;
+    }
+  }
+  return result[result.length - 1];
+}
+function vowelStrings(words: string[], left: number, right: number): number {
+  let count = 0;
+  const vowels = "aeiou";
+  for (let i = left; i <= right; i++) {
+    const first = words[i][0];
+    const last = words[i][words[i].length - 1];
+    if (vowels.includes(first) && vowels.includes(last)) {
+      count++;
+    }
+  }
+  return count;
+}
+function distMoney(money: number, children: number): number {
+  if (money < children) return -1;
+  if (money < 8) return -1;
+  if (money / 8 === children) return children;
+  if (Math.floor(money / 8) < children && money % 8 === 4)
+    return children - Math.floor(money / 8);
+  return -1;
+}
+function evenOddBit(n: number): number[] {
+  const toBit = n.toString(2).split("").reverse();
+  let even = 0;
+  let odd = 0;
+  for (let i = 0; i < toBit.length; i++) {
+    if (toBit[i] === "1") {
+      if (i % 2 === 0) {
+        even++;
+      } else {
+        odd++;
+      }
+    }
+  }
+  return [even, odd];
+}
+
+function kItemsWithMaximumSum(
+  numOnes: number,
+  numZeros: number,
+  numNegOnes: number,
+  k: number
+): number {
+  const result: number[] = [];
+  for (let i = 0; i < numOnes; i++) {
+    result.push(1);
+  }
+  for (let i = 0; i < numZeros; i++) {
+    result.push(0);
+  }
+  for (let i = 0; i < numNegOnes; i++) {
+    result.push(-1);
+  }
+  result.sort((a, b) => b - a);
+  return result.slice(0, k).reduce((acc, val) => acc + val, 0);
+}
+function findTheLongestBalancedSubstring(s: string): number {
+  let max = 0;
+  for (let i = 0; i < s.length; i++) {
+    for (let j = i + 1; j < s.length; j++) {
+      const slice = s.slice(i, j + 1);
+      const length = Math.floor(slice.length / 2);
+      if (
+        slice
+          .slice(0, length)
+          .split("")
+          .every((char) => char === "0") &&
+        slice
+          .slice(length)
+          .split("")
+          .every((char) => char === "1")
+      ) {
+        max = Math.max(max, slice.length);
+      }
+    }
+  }
+  return max;
+}
+function diagonalPrime(nums: number[][]): number {
+  let max = 0;
+  function checkPrime(n: number): boolean {
+    if (n < 2) return false;
+    for (let i = 2; i < Math.floor(Math.sqrt(n)) + 1; i++) {
+      if (n % i === 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+  for (let i = 0; i < nums.length; i++) {
+    let left = nums[i][i];
+    let right = nums[i][nums.length - 1 - i];
+    if (checkPrime(left) || checkPrime(right)) {
+      max = Math.max(left, right);
+    }
+  }
+  return max;
+}
+function distinctDifferenceArray(nums: number[]): number[] {
+  const result: number[] = [];
+  for (let i = 0; i < nums.length; i++) {
+    const left = new Set(nums.slice(0, i + 1));
+    const right = new Set(nums.slice(i + 1));
+    result.push(left.size - right.size);
+  }
+  return result;
+}
+function alternatingSubarray(nums: number[]): number {
+  let lens = 0;
+  for (let i = 0; i < nums.length - 1; i++) {
+    let validSlice = true;
+    for (let j = i + 1; j < nums.length; j++) {
+      const slice = nums.slice(i, j + 1);
+      const result = [];
+      for (let k = 1; k < slice.length; k++) {
+        const minus = slice[k] - slice[k - 1];
+        if (minus === 1 || minus === -1) {
+          result.push(minus);
+        }
+      }
+      console.log(result);
+      if (result[0] !== 1) {
+        validSlice = false;
+        break;
+      }
+      for (let m = 1; m < result.length; m++) {
+        if (result[m] !== -result[m - 1]) {
+          validSlice = false;
+          break;
+        }
+      }
+      if (validSlice) {
+        lens = Math.max(lens, slice.length);
+      }
+    }
+  }
+  return lens === 0 ? -1 : lens;
+}
+function isGood(nums: number[]): boolean {
+  const max = Math.max(...nums);
+  if (nums.length !== max) return false;
+  nums.sort((a, b) => a - b);
+  const map: Map<number, number> = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    map.set(nums[i], (map.get(nums[i]) || 0) + 1);
+  }
+  console.log(map)
+  for (let i = 0; i < nums.length; i++) {
+    if(map.get(i) !== 1) {
+      return false;
+    }
+    if(map.get(max) !== 2) {
+      return false;
+    }
+  }
+  return true;
+}
+function splitWordsBySeparator(words: string[], separator: string): string[] {
+  const result: string[] = [];
+  for(const word of words) {
+    const split = word.split(separator).filter((s) => s.length > 0);
+    for(const s of split) {
+      result.push(s);
+    }
+  }
+  console.log(result);
+  return result;    
+}
+function accountBalanceAfterPurchase(purchaseAmount: number): number {
+    const amount = Math.ceil(purchaseAmount / 10) * 10;
+    return 100 - amount;
 };
-function mostFrequent(nums : number[],key : number) : number {
-  let max = 0
-  let result = 0 
-  const map : Map<number, number> = new Map() 
-  for(let i = 0 ; i < nums.length-1; i++) {
-    if(nums[i] === key) {
-      const target = nums[i+1]
-      map.set(target, (map.get(target) || 0) + 1)
-    }
-  }
-  for(const [key,val] of map) {
-   max = Math.max(max, val)
-  }
-  for(const [key,val] of map) {
-    if(val === max) {
-      result = key
-    }
-  }
-  return result
+function finalString(s: string): string {
+  let result = ""
+    for(const char of s) {
+      if(char ==="i") {
+        result = result.split("").reverse().join("");
 
-  
-}
-function divideArray(nums : number[]) : boolean {
-  nums.sort((a,b)=> a-b) 
-  for(let i =0 ; i< nums.length -1; i+=2) {
-    if(nums[i] !== nums[i+1]) {
-      return false
+      }
+      else {
+        result += char;
+      }
+    }
+    return result;
+};
+function furthestDistanceFromOrigin(moves : string) : number {
+  let right = 0 
+  let left = 0 
+  let blank = 0 
+  for(const move of moves) {
+    if(move === "R") {
+      right++;
+    }
+    else if(move === "L") {
+      left++;
+    }
+    else {
+      blank++;
     }
   }
-  return true
+  return Math.max(right - left, left - right) + blank;
 }
-function minBitFlips(start : number, goal : number) : number {
-  const startBit = start.toString(2)
-  const goalBit = goal.toString(2)
-  let count = 0  
-  for(let i = startBit.length-1; i<=0;i--) {
-    if(startBit[i] !== goalBit[i]) {
+function canBeEqual(s1: string, s2: string): boolean { 
+  const even = [s1[0], s1[2]].sort().join("");
+  const odd = [s1[1], s1[3]].sort().join("");
+  const even2 = [s2[0], s2[2]].sort().join("");
+  const odd2 = [s2[1], s2[3]].sort().join("");
+  return even === even2 && odd === odd2;
+};
+function countSymmetricIntegers(low : number, high : number) : number {
+  let count = 0;
+  for(let i = low; i<= high; i++) {
+    const convertStr = i.toString().length 
+    if(convertStr % 2 === 0) {
+      const split = i.toString().split("").map((n) => parseInt(n));
+      const left = split.slice(0, split.length / 2).reduce((acc, val) => acc + val, 0);
+      const right = split.slice(split.length / 2).reduce((acc, val) => acc + val, 0);
+      if(left === right) {
+        count++;
+      }
   }
-
+  }
   return count
 }
-}
-function findKDistantIndices(nums : number[] ,key : number, k : number) : number[] {
-  const result : number[] = []
-  const index : number[] = []
-  for(let i = 0; i< nums.length; i++) {
-    if(nums[i] === key) {
-      index.push(i)
+function numberOfPoints(nums: number[][]): number {
+    const result : number[] = [];
+    for(const num of nums) {
+        for(let i = num[0]; i <= num[1]; i++) {
+            result.push(i);
+        }
+    }
+    return new Set(result).size;
+};
+function sumIndicesWithKSetBits(nums : number[], k : number) : number {
+  let count1 = 0 
+  let sum = 0 
+  for(let i =0 ; i< nums.length; i++) {
+    const bit = i.toString(2).split("").filter((b) => b === "1").length;
+    if(bit === k) {
+      count1++;
+      sum += nums[i];
     }
   }
-  console.log(index)
-  for(const ins of index) {
-    for(let i= 0 ; i< nums.length; i++) {
-      if(Math.abs(i - ins) <= k) {
+  return count1 === 0 ? 0 : sum 
+}
+function maximumOddBinaryNumber(s: string): string {
+  const count0 = s.split("").filter((char) => char === "0").length;
+  const count1 = s.split("").filter((char) => char === "1").length;
+  if(count1 === 0) {
+    return "0";
+  }
+  return "1".repeat(count1 - 1) + "0".repeat(count0) + "1";
+};
+function minimumSum(nums: number[]) {
+  const result: number[] = [];  
+  for(let i =0 ; i< nums.length-2; i++) {
+    let sum = 0 
+    for(let j = i + 1; j < nums.length-1; j++) {
+      for(let k = j + 1; k < nums.length; k++) {
+        if(nums[i] < nums[j] && nums[k] < nums[j]) {
+         sum = nums[i] + nums[j] + nums[k];
+         result.push(sum);
+        }
+      }
+  }
+  }
+  return result.length === 0 ? -1 : Math.min(...result);
+  
+};
+function minOperations(nums: number[], k: number)  {
+  const result : number[] = [];
+  for(let i = nums.length-1; i >= 0; i--) {
+    if(nums[i] <=k && !result.includes(nums[i])) {
+      result.push(nums[i]);
+    }
+    if(result.length === k) {
+      return result.length -i 
+    }
+    
+  }
+  
+  return result.length
+  
+}
+function getLongestSubsequence(words: string[], groups: number[]): string[] {
+
+    let prev = groups[0];
+    const result : string[] = []; 
+    result.push(words[0]);
+    for(let i =1 ; i < words.length; i++) {
+       if(groups[i] ! ==prev) {
+        result.push(words[i]);
+        prev = groups[i];
+       }
+       
+    }
+    return result
+};
+
+function findChampion(grid: number[][]): number {
+  let index =0 
+  let max = 0 
+    for(let i =0 ; i < grid.length; i++) {
+      const sum = grid[i].reduce((acc,val) => acc+val,0) 
+      if(sum > max) {
+        max = sum;
+        index = i;
+      }
+
+    }
+    return index
+};
+function canMakeSquare(grid: string[][]): boolean {
+    for(let i = 0; i< grid.length;i++) {
+      if(grid[i][0] === grid[i+1][0] && grid[i][1] === grid[i+1][1] || grid[i][1] === grid[i+1][1] && grid[i][2] === grid[i+1][2]) {
+        return true
+      }
+    }
+    return false
+};
+function isValid(word: string): boolean {
+    const numbers = "0123456789";
+    let hasVowel = false
+    let hasConsonant = false
+    const vowels = "aeiou";
+    if(word.length < 3) {
+      return false
+    }
+  
+    for(const char of word) {
+      if(!(char >= "a" && char <= "z") && !(char >= "A" && char <= "Z") && !(char >= "0" && char <= "9")) {
+        return false
+      }
+      if(vowels.includes(char)) {
+        hasVowel = true
+      }
+      else if(
+        (char >= "a" && char <= "z") ||
+        (char >= "A" && char <= "Z")
+    ) {
+        hasConsonant = true;
+    }
+    }
+    return hasVowel && hasConsonant
+
+}
+function findPermutationDifference(s: string, t: string): number {
+    let sum = 0 
+    const map1 = new Map()
+    const map2 = new Map() 
+    for(let i =0 ;i< s.length; i++) {
+      map1.set(s[i], (map1.get(s[i]) || 0) + 1)
+    }
+    for(let i = 0; i < t.length; i++) {
+      map2.set(t[i], (map2.get(t[i]) || 0) + 1)
+    }
+    for(const [key,val] of map1) { 
+      sum += Math.abs(map1.get(key)! - map2.get(key)!)
+
+    }
+    return sum 
+};
+
+function getSmallestString(s: string): string { 
+  for(let i = 0; i< s.length; i++) {
+    
+    const toNum = parseInt(s[i])
+    const toNumNext = parseInt(s[i+1])
+    const isSame = toNum % 2 === toNumNext % 2
+    if(isSame && toNum > toNumNext) {
+      return s.slice(0,i) + s[i+1]+ s[i] + s.slice(i+2)
+    }
+    
+    
+  }
+  return s
+    
+};
+function minChanges(n: number, k: number): number { 
+  if(n === k) return 0 
+  const bitN = n.toString(2)
+  const bitK = k.toString(2)
+  let count = -1
+  for(let i =0 ; i< bitN.length; i++) {
+     if(bitN[i] !== bitK[i]) {
+      count++
+     }
+  }
+  return count
+    
+};
+function convertDateToBinary(date: string): string {
+  const result : string[] = []
+    const split = date.split("-")
+    for(const s of split) {
+      const toNum = parseInt(s) 
+      const toBinary = toNum.toString(2)
+      result.push(toBinary)
+    }
+    return result.join("-")
+};
+function smallestNumber(n: number): number {
+  let num = n 
+  while(true) {
+    const bit = num.toString(2)
+    const set = new Set(bit)
+    if(set.size === 1 && set.has("1")) {
+      return num
+    }
+    num++
+  }
+  return num 
+};
+function constructTransformedArray(nums: number[]): number[] {
+    const result : number[] = [] 
+    for(let i =0 ; i< nums.length; i++) {
+      result.push(nums[nums[i % nums.length]])
+    }
+    return result
+};
+function isAdjacentDiffAtMostTwo(s: string): boolean {
+    for(let i = 0; i< s.length; i++) {
+      const first = parseInt(s[i])
+      const second = parseInt(s[i+1])
+      const abs = Math.abs(first - second)
+      if(abs > 2) {
+        return false
+      }
+
+
+    }
+    return true
+};
+function concatHex36(n: number): string {
+    const h1 = (n *n).toString(16)
+    const h2 = (n *n*n).toString(36) 
+    return (h1 + h2).toUpperCase()
+};
+function commonChars(words: string[]): string[] {
+    const result :  string[] = [] 
+    for(const word of words) {
+      const set = new Set(word)
+      for(const c of set) {
+        let count = 0
+        for(const w of words) {
+          if(w.includes(c)) {
+            count++
+          }
+        }
+        if(count === words.length) {
+          result.push(c)
+        }
+      }
+    }
+    return result
+};
+function minCostToMoveChips(position: number[]): number {
+    let even = 0 
+    let odd = 0 
+    for(const pos of position) {
+      if(pos % 2 === 0) {
+        even++
+      }
+      else {
+        odd++
+      }
+    }
+    return Math.min(even, odd)
+};
+function freqAlphabets(s: string): string {
+  let result = ""
+  const letters = "abcdefghi"
+  const digits = "jklmnopqrstuvwxyz"
+  const map : Map<string, string> = new Map() 
+  const map2 : Map<string, string> = new Map()
+  for(let i =1; i<=9 ; i++){
+    map.set(i.toString(), letters[i-1])
+  }
+  for(let i = 10; i<=26;i++) {
+    map2.set(i.toString()+"#", digits[i-10])
+  }
+  
+  for (let i = 0; i < s.length; i++) {
+
+    if (i + 2 < s.length && s[i + 2] === "#") {
+
+        const sub = s.slice(i, i + 3);
+
+        result += map2.get(sub)!;
+
+        i += 2;
+
+    } else {
+
+        result += map.get(s[i])!;
+    }
+}
+
+  return result
+
+    
+};
+function mostVisited(n: number, rounds: number[]): number[] {
+    let result : number[] = [] 
+    const first = rounds[0] 
+    const last = rounds[rounds.length-1]
+    if(first <= last) {
+      for(let i = first; i <= last; i++) {
         result.push(i)
       }
     }
-    
-  }
-  return [...new Set(result)].sort((a,b) => a - b)
-}
-function removeDigit(number: string, digit : string)  {
-  let max = 0 
-  for(let i =0 ; i< number.length; i++) {
-    if(number[i] === digit) {
-      const newNum = number.slice(0, i) + number.slice(i + 1);
-      max = Math.max(max, parseInt(newNum))
-    }
-  }
-  return max.toString()
-}
-function checkDistances(s: string, distance: number[]) : boolean {
-  for(let i =0 ; i< s.length; i++) {
-    for(let j = i+1; j<s.length; j++) {
-      if(s[i] === s[j]) {
-        const dist = Math.abs(i-j-1)
-        const charCode = s[i].charCodeAt(0) - 'a'.charCodeAt(0)
-        if(dist !== distance[charCode]) {
-          return false
-        }
-    }
-  }
-  }
-  return true
-}
-function smallestEvenMultiple(n : number) : number {
-  let max = Infinity
-  for(let i = n; i< max; i++) {
-    if(i % n === 0 && i % 2 === 0) {
-      max = i 
-      break
-    }
-  }
-  return max
-}
-function oddString(words: string[]) : string {
-  const mapCheck : Map<string, string[]> = new Map()
-  const map : Map<string, number[]> = new Map()
-  const letters = "abcdefghijklmnopqrstuvwxyz"
-  for(let i = 0; i< 26; i++) {
-    map.set(letters[i], [i])
-  }
-  for(const word of words) {
-    const difference : number[] = []
-    for(let i =1 ; i < word.length; i++) {
-      if(map.has(word[i]) && map.has(word[i-1])){
-        const diff = map.get(word[i])![0] - map.get(word[i-1])![0]
-        difference.push(diff)
+    else {
+      for(let i = first; i <= n; i++) {
+        result.push(i)
+      }
+      for(let i = 1; i <= last; i++) {
+        result.push(i)
     }
     }
-    const key = difference.join(",")
-    if(!mapCheck.has(key)) {
-      mapCheck.set(key, [])
+    return result
+};
+function limitOccurrences(nums: number[], k: number): number[] {
+  const result : number[] = []
+  const map : Map<number,number> = new Map() 
+  for(const num of nums) {
+    map.set(num, (map.get(num) || 0) + 1)
+  }
+  for(const[key,val] of map) {
+    if(val >= k) {
+      for(let i =0 ; i <k; i++) {
+        result.push(key)
+      }
     }
-    mapCheck.get(key)?.push(word)
-    
-    
-  }
-  for(const[key,val] of mapCheck) {
-    if(val.length === 1) {
-      return val[0]
+    else {
+      for(let i = 0 ; i< val ;i++){
+        result.push(key)
+      }
     }
-  }
-  return ""
-}
-function convertTemperature(celsius: number) : number[] {
-  const fahrenheit = celsius * 1.80 + 32.00
-  const kelvin = celsius + 273.15
-  return [fahrenheit, kelvin]
-}
-function numberOfCuts(n: number) : number {
-  if(n % 2 === 0) {
-    return n / 2
-  }
-  else if(n === 1 ) {
-    return 0 
-  }
-  else {
-    return n 
-  }
-}
-function deleteGreatestValue(grid : number[][]) : number {
-  for(const g of grid) {
-    g.sort((a,b) => a - b)
-  }
-  const m = grid.length
-  const n = grid[0].length
-  let sum = 0 
-  for(let i =0 ; i< n; i++) {
-    let max = 0 
-    for(let j =0; j<m;j++) {
-      max = Math.max(max, grid[j][i])
-    }
-    sum += max
-  }
-  return sum 
-  
-}
 
-function captureForts(forts : number[]) : number {
-  if(forts.filter(f => f === 1).length === 0 || forts.filter(f => f === -1).length === 0) {
-    return 0
   }
-  const mapCheck : Map<number, number[]> = new Map()
-  for(let i = 0; i<forts.length; i++) {
-    if(forts[i] !== 0) {
-      if(!mapCheck.has(forts[i])) {
-        mapCheck.set(forts[i], [])
-      }
-      mapCheck.get(forts[i])?.push(i)
+  return result
+};
+function minDeletion(s: string, k: number): number {
+    const set = new Set(s) 
+    const result = set.size - k  
+    if(result === 0) return result
+    const map : Map<string,number> = new Map()
+    for(const char of s) {
+      map.set(char, (map.get(char) || 0) + 1)
     }
-  }
-  const values : number[][] = []
-  for(const[key,val] of mapCheck) {
-    values.push([...val])
-  }
-  const concat = (values.reduce((acc,val) => acc.concat(val), [])).sort((a,b) => a - b) 
-  let max =0 
-  for(let j =1 ; j< concat.length; j++) {
-    let valid = true
-    const left = concat[j-1]
-    const right = concat[j] 
-    if(forts[left] !== forts[right]) {
-      for(let i = left+1; i< right; i++) {
-        if(forts[i] !== 0) {
-          valid = false 
-          break
-        }
-      }
-      if(valid) {
-        max = Math.max(max, right - left -1)
-      }
-
+    const sortedVal = new Map([...map.entries()].sort((a,b) => a[1] - b[1]))
+    const keys = [...sortedVal.keys()].slice(0, result)
+    let final = 0 
+    for(const key of keys) {
+      final +=  sortedVal.get(key)!
     }
-  }
-  return max
-  
-}
-  function pickGifts(gifts : number[], k : number) : number[] {
-    gifts.sort((a,b) => b - a)
-    const result : number[] = [] 
-    let sum = 0
-    let sqrt =0 
-    for(let i =0 ;i< k ;i++) {
-      
-      result.sort((a,b) => b - a)
-      if(gifts[i] > result[result.length-1]) {
-         sqrt = Math.floor(Math.sqrt(gifts[i]))
-        result.push(sqrt)
-      }
-      else {
-        sqrt = Math.floor(Math.sqrt(result[result.length-1]))
-        result.push(sqrt)
-      }
-      
-    }
-    return result 
-
+    return final
     
-  }
-  function passThePillow(n :number, timer : number) : number {
-    let count =0 
-    const result : number[] = []   
-    for(let i = 0 ; i<=timer; i++) {
-      if(count < n) {
-        count++
-        result.push(count)
-      }
-      else {
-        count--
-      }
-      
-    }
-    return result[result.length-1]
-  }
-  function vowelStrings(words : string[], left : number, right : number) : number {
-    let count = 0 
-    const vowels = "aeiou"
-    for(let i = left; i<= right; i++) {
-      const first = words[i][0]
-      const last = words[i][words[i].length-1]
-      if(vowels.includes(first) && vowels.includes(last)) {
-        count++
-      }
-    }
-    return count
-  }
-  function distMoney(money : number, children : number) : number {
-    if(money < children) return -1
-    if(money < 8) return -1 
-    if(money /8 === children) return children
-    if(Math.floor(money/8) <  children && money % 8 === 4) return children - Math.floor(money/8)
-    return -1 
-  }
-  function evenOddBit(n : number) : number[] {
-    const toBit = n.toString(2).split("").reverse()
-    let even = 0
-    let odd = 0 
-    for(let i = 0; i< toBit.length; i++) {
-      if(toBit[i] === "1") {
-        if(i % 2 === 0) {
-          even++
-        }
-        else {
-          odd++
-        }
-      }
-    }
-    return [even, odd]
-  }
-  
-  function kItemsWithMaximumSum(numOnes: number, numZeros: number, numNegOnes: number, k: number): number {
-    const result : number[] = [] 
-    for(let i = 0; i< numOnes; i++) {
-      result.push(1)
-    }
-    for(let i = 0; i< numZeros; i++) {
-      result.push(0)
-    }
-    for(let i = 0; i< numNegOnes; i++) {
-      result.push(-1)
-    }
-    result.sort((a,b) => b - a)
-    return result.slice(0, k).reduce((acc,val) => acc + val, 0)
-  };
-  function findTheLongestBalancedSubstring(s: string) : number {
-    let max = 0 
-    for(let i =0 ; i< s.length;i++) {
-      for(let j = i+1; j< s.length; j++) {
-       const slice = s.slice(i, j+1)
-      const length = Math.floor(slice.length/2)
-      if(slice.slice(0,length).split("").every(char => char === "0") && slice.slice(length).split("").every(char => char === "1")) {
-        max = Math.max(max, slice.length)
-      }
-      
-    }
-    }
-    return max
-  }
-  function diagonalPrime(nums : number[][]) : number {
-    let max = 0
-    function checkPrime(n: number) : boolean {
-      if(n <2) return false 
-      for(let i =2; i< Math.floor(Math.sqrt(n))+1; i++) {
-        if(n % i === 0) {
-          return false 
-        }
-      }
-      return true 
-    }
-    for(let i = 0; i< nums.length; i++) {
-      let left = nums[i][i]
-      let right = nums[i][nums.length-1-i]
-      if(checkPrime(left) || checkPrime(right)) {
-        max =  Math.max(left, right)
-      }
-    }
-    return max
-  }
-  function distinctDifferenceArray(nums : number[]) : number[] {
     
-  }
+    
+    
+};
