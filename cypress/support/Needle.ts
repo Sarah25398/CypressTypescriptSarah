@@ -3761,7 +3761,7 @@ function maxDigitRange(nums: number[]): number {
   
 
 }
-function totalNumbers(digits: number[]): number {
+function totalNumbersCatchMy(digits: number[]): number {
     const n = digits.length;
     const set = new Set<number>();
     for(let i = 0; i < n; i++) {
