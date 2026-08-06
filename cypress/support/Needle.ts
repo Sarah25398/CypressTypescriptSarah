@@ -3778,3 +3778,106 @@ function totalNumbersCatchMy(digits: number[]): number {
     }
     return set.size;
 };
+function dayOfYear(date: string): number {
+    const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    const dates = date.split("-").map((n) => parseInt(n));
+    const isLeapYear = (year : number) => {
+      return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+    }
+    if(isLeapYear(dates[0])) {
+      days[1] = 29;
+    }
+    let totalDays = 0;
+    for(let i = 0; i < dates[1] - 1; i++) {
+      totalDays += days[i];
+    }
+    totalDays += dates[2];
+    return totalDays;
+};
+function countBalls(lowLimit: number, highLimit: number): number {
+    const ballCount : number[] = []
+    for(let i = lowLimit; i <= highLimit; i++) {
+      const split = i.toString().split("").map((n) => parseInt(n));
+      const sum = split.reduce((acc, val) => acc + val, 0);
+      ballCount.push(sum);
+     }
+     const map = new Map();
+     for(const ball of ballCount) {
+      map.set(ball, (map.get(ball) || 0) + 1);
+     }
+     let max = 0;
+     for(const [key, val] of map) {
+      if(val > max) {
+        max = val;
+      }
+     }
+     return max;
+
+};
+function subsetXORSum(nums: number[]): number {
+    const n = nums.length
+    let result = 0
+    for(let i = 0; i < (1 << n); i++) {
+      let xorSum = 0
+      for(let j = 0; j < n; j++) {
+        if((i & (1 << j)) !== 0) {
+          xorSum ^= nums[j]
+        }
+      }
+      result += xorSum
+    }
+    return result
+     
+};
+function secondsBetweenTimes(startTime: string, endTime: string): number {
+    const [startHours, startMinutes, startSeconds] = startTime.split(":").map(Number);
+    const [endHours, endMinutes, endSeconds] = endTime.split(":").map(Number);
+
+    const startTotalSeconds = startHours * 3600 + startMinutes * 60 + startSeconds;
+    const endTotalSeconds = endHours * 3600 + endMinutes * 60 + endSeconds;
+
+    let diff = endTotalSeconds - startTotalSeconds;
+    if (diff < 0) {
+        diff += 24 * 3600; // Add 24 hours in seconds if the difference is negative
+    }
+
+    return diff;
+};
+function rearrangeString(s: string, x: string, y: string): string {
+    const arr = s.split("")
+    let other = ""
+    let result = ""
+    let cX = "" 
+    let cY = ""
+    for(const char of arr) {
+      if(char === x) {
+        cX += char
+      }
+      else if(char === y) {
+        cY += char
+      }
+      else {
+        other += char
+      }
+    }
+    result = cY + other + cX
+    return result
+};
+function canReach(start: number[], target: number[]): boolean {
+    const startColor = (start[0] + start[1]) % 2
+    const targetColor = (target[0] + target[1]) % 2
+    return startColor === targetColor
+};
+function testFileonly(n: number, s: number): number { 
+    if( s === 0 ) return 0
+    let result = -1
+    const start = Math.pow(10, n - 1) 
+    const end = Math.pow(10, n) - 1
+    for(let i = start; i <= end; i++) {
+      const sum = i.toString().split("").map((n) => parseInt(n)).reduce((acc, val) => acc + val, 0)
+      if(sum === s) {
+        result = i
+      }
+    }
+    return result 
+};
