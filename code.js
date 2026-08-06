@@ -28,3 +28,8 @@ function selectionSort(arr) {
     }
     console.log(arr.join(' ')+' ');
 }
+function canReach(start: number[], target: number[]): boolean {
+    const startColor = (start[0] + start[1]) % 2
+    const targetColor = (target[0] + target[1]) % 2
+    return startColor === targetColor
+};
