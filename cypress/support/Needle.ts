@@ -3761,7 +3761,7 @@ function maxDigitRange(nums: number[]): number {
   
 
 }
-function totalNumbers(digits: number[]): number {
+function totalNumbersCatchMy(digits: number[]): number {
     const n = digits.length;
     const set = new Set<number>();
     for(let i = 0; i < n; i++) {
@@ -3868,7 +3868,7 @@ function canReach(start: number[], target: number[]): boolean {
     const targetColor = (target[0] + target[1]) % 2
     return startColor === targetColor
 };
-function move(n: number, s: number): number { 
+function findTheNumber(n: number, s: number): number { 
     if( s === 0 ) return 0
     let result = -1
     const start = Math.pow(10, n - 1) 
