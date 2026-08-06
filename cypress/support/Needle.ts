@@ -3868,7 +3868,7 @@ function canReach(start: number[], target: number[]): boolean {
     const targetColor = (target[0] + target[1]) % 2
     return startColor === targetColor
 };
-function findTheNumber(n: number, s: number): number { 
+function findTheNumber4(n: number, s: number): number { 
     if( s === 0 ) return 0
     let result = -1
     const start = Math.pow(10, n - 1) 
